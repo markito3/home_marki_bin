@@ -1,6 +1,6 @@
 #!/apps/perl/bin/perl
 #
-# $Id: markworks,v 1.13 2004/12/15 18:25:33 marki Exp $
+# $Id: markworks,v 1.14 2004/12/22 20:36:47 marki Exp $
 #
 # Takes command line arguments rather than hardcoded parameters. - MCJ 3-17-00
 #
@@ -58,6 +58,7 @@ while ($file = <FIND>) {
 	    $change_time = -C $file;
 	}
     }
+    #printf "$file, $link, $regular, $directory, $access_time, $size, $change_time\n";
     if ($regular || $link) {
 	if ($access_time > $access_time_min) {
 	    # add it to the deletion candidates
@@ -68,17 +69,8 @@ while ($file = <FIND>) {
 	}
     } elsif ($directory) {
 	if ($change_time > $access_time_min) {
-	    # check whether it is empty and delete it if it is.
-	    #print "directory: $file\n";
-	    $file =~ s/ /\\ /g;
-	    open(DIRLIST, "ls -a $file | wc -l |");
-	    $nfiles = <DIRLIST>;
-	    chop $nfiles;
-	    #print "nfiles=$nfiles\n";
-	    # empty directories only contain "." and ".."
-	    if ($nfiles == 2) {
-		print "removing empty directory $file\n";
-		rmdir $file;
+	    if (rmdir $file) {
+		print "removed empty directory $file\n";
 	    }
 	}
 	close(DIRLIST);
