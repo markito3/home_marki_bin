@@ -1,6 +1,6 @@
 #!/usr/bin/env perl
 #
-# $Id: work_warn_db.pl,v 1.6 2001/11/08 20:15:11 marki Exp $
+# $Id: work_warn_db.pl,v 1.7 2001/11/09 04:07:46 marki Exp $
 ########################################################################
 
 use DBI;
@@ -10,6 +10,8 @@ eval "\$$1=\$2" while $ARGV[0] =~ /^(\w+)=(.*)/ && shift; # see camel book
 
 # initialize constant
 $used_fraction_target = 0.70;
+$access_age_cut = 5.0; # days
+$atime_big = 365*100;
 
 # list of work partitions to consider
 $work_partition[0] = "/work/clas/disk1";
@@ -47,9 +49,10 @@ foreach $ip (0 .. $#work_partition) {
     if ($dt < 0) {$dt = 0;}
     print "$work_partition[$ip] $total $used $free $dt\n";
     $partno = $ip + 1;
-    $sql = "SELECT size, atime FROM WorkFile WHERE partition = $partno AND atime > 5.0 ORDER BY atime DESC";
+    $sql = "SELECT size, atime FROM WorkFile WHERE partition = $partno AND atime > $access_age_cut ORDER BY atime DESC";
     DO_IT(\$sth);
     $sum = 0;
+    $atime_last = $atime_big;
     while ($sum < $dt && (($size, $atime) = $sth->fetchrow_array)) {
 	$sum += $size;
 	#print "$atime $sum\n";
@@ -58,7 +61,7 @@ foreach $ip (0 .. $#work_partition) {
     if ($dt) {
 	$atime_cut[$ip] = $atime_last;
     } else {
-	$atime_cut[$ip] = 365*100;
+	$atime_cut[$ip] = $atime_big;
     }
     print "$atime_cut[$ip]\n";
 }
