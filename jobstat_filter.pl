@@ -1,4 +1,8 @@
-#!/usr/local/bin/perl
+#!/usr/bin/env perl
+#$id$
+print "Columns are: job_no jobname user project status queue submit_time"
+    . " start_time node cpu_time.\n";
+print "If job pending, dependency condition follows submit_time.\n";
 while (<>) {
     if (/^Job /) {
 	print "$job $jobname $user $project $status $queue $submit $start ",
@@ -22,6 +26,12 @@ while (<>) {
 	#print "time = $time\n";
 	if (/Submitted from host/) {
 	    $submit = $time;
+	    if ($status eq "PEND" && /Dependency Condition/) {
+		$line = $_;
+		$condition = &PARSE($line, "Dependency Condition");
+		#print "dependency condition = $condition\n";
+		$start = $condition; # use the dependency as the start time
+	    }
 	} elsif (/Started on/) {
 	    $start = $time;
 	    $node = &PARSE($line,"Started on");
