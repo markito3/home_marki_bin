@@ -11,7 +11,7 @@
 # database table of all files on the disk, storing their partition,
 # path, file name, size and access age.
 #
-# $Id: cache_db.pl,v 1.29 2001/03/29 13:26:31 marki Exp $
+# $Id: cache_db.pl,v 1.30 2001/05/30 20:05:40 marki Exp $
 ########################################################################
 
 use DBI;
@@ -182,10 +182,10 @@ if ($size_marked <= $size_marked_min) {
 		#print "ip=$ip name=$name size=$size atime=$atime ", "size_sum_delete=$size_sum_delete\n";
 		if ($atime > $atime_stable) {
 		    $size_sum_delete += $size;
-		    $command = "jcache -d /cache$path_over/$name";
+		    $command = "jcache -d $path_over/$name";
 		    # for debugging, overwrite command with something innocuous
 		    # $command = "";
-		    print LOG "marking /cache$path_over/$name, atime=$atime\n";
+		    print LOG "marking $path_over/$name, atime=$atime\n";
 		    system($command);
 		}
 	    }
