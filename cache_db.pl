@@ -3,14 +3,15 @@
 # Surveys the cache disk. If the sum of sizes of files marked for
 # early deletion is not large enough, finds directories that are over
 # quota and marks files for early deletion. Starts with the files that
-# are newest by access time. Stops when the total size of the unmarked
-# files is below quota.
+# are newest by access time. Requires that the file has been
+# unaccessed for a certain amount of time. Stops when the total size
+# of the unmarked files is below quota.
 #
 # Uses a MySQL database to manage the data. Starts by creating a
 # database table of all files on the disk, storing their partition,
 # path, file name, size and access age.
 #
-# $Id: cache_db.pl,v 1.12 2000/07/17 16:03:06 marki Exp $
+# $Id: cache_db.pl,v 1.13 2000/07/18 11:46:43 marki Exp $
 ########################################################################
 
 use DBI;
@@ -22,6 +23,9 @@ $atime_marked = 100; # age cut: files older than this are considered
 
 $size_marked_min = 20e9; # in bytes, size of marked files less than
                          # this triggers quota checking
+
+$atime_stable = 5.0/24.0/60.0; # age in days before file considered for
+                                   # deletion
 
 # list of cache partitions to consider
 $cache_partition[0] = "/w/cache101";
@@ -157,12 +161,14 @@ if ($size_marked < $size_marked_min) {
 		$name = @row_ary[1];
 		$size = @row_ary[2];
 		$atime = @row_ary[3];
-		$size_sum_delete += $size;
-		#print "ip=$ip name=$name size=$size size_sum_delete=$size_sum_delete\n";
-		$command = "jcache -d /cache$path_over/$name";
-		# for debugging # $command = "ls -l /cache$path_over/$name";
-		print "marking /cache$path_over/$name, atime=$atime\n";
-		system($command);
+		print "ip=$ip name=$name size=$size atime=$atime size_sum_delete=$size_sum_delete\n";
+		if ($atime > $atime_stable) {
+		    $size_sum_delete += $size;
+		    $command = "jcache -d /cache$path_over/$name";
+		    # for debugging # $command = "ls -l /cache$path_over/$name";
+		    print "marking /cache$path_over/$name, atime=$atime\n";
+		    system($command);
+		}
 	    }
 	}
     }
