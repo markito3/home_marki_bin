@@ -21,16 +21,20 @@ foreach $file (@ARGV) {
 	    $preamble = 1;
 	    @message = "";
 	    @info = "";
+	    #print "From line: $line";
 	} elsif ($preamble) {
 	    if ($line =~ /^Date: / || $line =~ /^From: / || $line =~ /^To: /
 		|| $line =~ /^Subject: /) {
+		if ($line =~ /$pattern/i) {$match = 1}
 		push(@info, $line);
 	    } elsif ($line eq "\n") {
 		$preamble = 0;
 	    }
+	    #print "preamble: $line";
 	} else {
 	    push(@message, $line);
 	    if ($line =~ /$pattern/i) {$match = 1}
+	    #print "match=$match: $line";
 	}
     }
     if ($match) {PrintMessage();}
