@@ -6,13 +6,12 @@ $access_time_max = 0;
 while ($cachedisk[$icd]) {
     open(FIND, "find $cachedisk[$icd] -type f |");
     while ($file = <FIND>) {
-	#print "$file";
 	chop $file;
 	$access_time = -A $file;
 	if ($access_time > $access_time_max) {
 	    $access_time_max = $access_time;
 	}
-	#print "$access_time $access_time_max\n";
+        #print "$file $access_time $access_time_max\n";
     }
     $icd++;
 }
