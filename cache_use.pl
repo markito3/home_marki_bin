@@ -1,6 +1,6 @@
 #!/usr/local/bin/perl
 #
-# $Id: cache_use.pl,v 1.2 2000/07/12 12:30:45 marki Exp $
+# $Id: cache_use.pl,v 1.3 2000/07/12 18:54:51 marki Exp $
 ########################################################################
 
 use DBI;
@@ -16,7 +16,7 @@ $size_marked_min = 20e9; # in bytes, size of marked files less than
 # list of cache partitions to consider
 $cache_partition[0] = "/w/cache101";
 $cache_partition[1] = "/w/cache201";
-$cache_partition[2] = "/w/cache301";
+$cache_partition[2] = "/w/cache401";
 
 # connect to MySQL database on localhost
 

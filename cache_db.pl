@@ -10,7 +10,7 @@
 # database table of all files on the disk, storing their partition,
 # path, file name, size and access age.
 #
-# $Id: cache_db.pl,v 1.10 2000/07/12 13:49:48 marki Exp $
+# $Id: cache_db.pl,v 1.11 2000/07/12 18:54:50 marki Exp $
 ########################################################################
 
 use DBI;
@@ -26,7 +26,7 @@ $size_marked_min = 20e9; # in bytes, size of marked files less than
 # list of cache partitions to consider
 $cache_partition[0] = "/w/cache101";
 $cache_partition[1] = "/w/cache201";
-$cache_partition[2] = "/w/cache301";
+$cache_partition[2] = "/w/cache401";
 
 # connect to MySQL database on localhost
 
