@@ -8,8 +8,8 @@ chomp $answer;
 if ($answer ne 'y') {die "not adding user $username"}
 open (MAIL,
       "| mail -s \"add user $username to clas group\" helpdesk\@jlab.org");
-print MAIL
-    "Please add user $username to the clas unix group as the default group.\n";
+print MAIL "Please add user $username to the clas unix group. clas should\n";
+print MAIL "be this user's default group.\n\n";
 print MAIL "Thanks.\n";
 close (MAIL);
 exit;
