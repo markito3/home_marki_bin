@@ -14,7 +14,7 @@
 # set markfiles=<non-zero> on command line to actually mark files for early
 # deletion.
 #
-# $Id: cache_db.pl,v 1.36 2002/01/08 16:34:07 marki Exp $
+# $Id: cache_db.pl,v 1.37 2002/05/05 15:34:53 marki Exp $
 ########################################################################
 
 use DBI;
@@ -81,7 +81,7 @@ foreach $cache (@cache_partition) {
 
     $ic++;
     
-    open(FIND, "find $cache/ -type f |");
+    open(FIND, "find $cache/ -path $cache/lost+found -prune -o -type f |");
     
     while ($file = <FIND>) {
 	#print "$file";
