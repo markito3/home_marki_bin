@@ -1,4 +1,4 @@
-#!/usr/local/bin/perl
+#!/usr/bin/env perl
 $total_size = 0;
 while ($file = <STDIN>) {
     #print $file;
