@@ -1,6 +1,6 @@
 #!/usr/bin/env perl
 #
-# $Id: work_db.pl,v 1.3 2001/10/10 21:27:41 marki Exp $
+# $Id: work_db.pl,v 1.4 2001/10/11 20:20:30 marki Exp $
 ########################################################################
 
 use DBI;
@@ -12,6 +12,7 @@ eval "\$$1=\$2" while $ARGV[0] =~ /^(\w+)=(.*)/ && shift; # see camel book
 $work_partition[0] = "/work/clas/disk1";
 $work_partition[1] = "/work/clas/disk2";
 $work_partition[2] = "/work/clas/disk3";
+$work_partition[3] = "/work/clas/farm_output";
 
 # connect to MySQL database on localhost
 
@@ -22,7 +23,7 @@ $hostname = "localhost";
 $dbh = DBI->connect("DBI:mysql:cache:$hostname", $user, $password);
 
 if (defined $dbh) {
-    print "Connection successful: handle: $dbh\n";
+    #print "Connection successful: handle: $dbh\n";
 } else {
     die "Could not connect to database. Exiting.\n";
 }
@@ -35,13 +36,32 @@ $sql = "SELECT uid, sum(size) AS sum_size, count(*) FROM WorkFile GROUP BY uid O
 DO_IT(\$sth);
 while (($uid, $size, $count) = $sth->fetchrow_array) {
     $user = getpwuid($uid);
-    print "$user $size $count\n";
+    $sizeg = $size/1.e9;
+    foreach $ip (0 .. $#work_partition) {
+	$sizep[$ip] = 0;
+	$countp[$ip] = 0;
+    }
     $sql = "SELECT partition, sum(size), count(*) FROM WorkFile WHERE uid=$uid GROUP BY partition ORDER BY partition";
     DO_IT(\$sthp);
     while (($partition, $sizep, $countp) = $sthp->fetchrow_array) {
-	print "$partition, $sizep, $countp\n";
+	$sizep[$partition - 1] = $sizep;
+	$countp[$partition - 1] = $countp;
     }
+    foreach $ip (0 .. $#work_partition) {
+	$sizepg[$ip] = $sizep[$ip]/1.e9;
+    }
+    write
 }
+
+format STDOUT_TOP =
+          all work disks       disk1           disk2           disk3       farm_output
+user      Gbytes   files  Gbytes   files  Gbytes   files  Gbytes   files  Gbytes   files
+----      --------------  --------------  --------------  --------------  --------------
+.
+format =
+@<<<<<<<  @##.###  @####  @##.###  @####  @##.###  @####  @##.###  @####  @##.###  @####
+$user, $sizeg, $count, $sizepg[0], $countp[0], $sizepg[1], $countp[1], $sizepg[2], $countp[2], $sizepg[3], $countp[3]
+.
 
 exit 0;
 
