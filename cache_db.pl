@@ -14,7 +14,7 @@
 # set markfiles=<non-zero> on command line to actually mark files for early
 # deletion.
 #
-# $Id: cache_db.pl,v 1.32 2001/08/09 16:23:12 marki Exp $
+# $Id: cache_db.pl,v 1.33 2001/09/10 19:20:30 marki Exp $
 ########################################################################
 
 use DBI;
@@ -179,7 +179,7 @@ if ($size_marked <= $size_marked_min) {
 	    $amt_over_gb = $amount_over{$path_over}/1.0e9;
 	    $sql = "SELECT partition, name, size, atime from CacheFile"
 		. " where path=\"$path_over\" and atime < $atime_marked"
-		    . " ORDER BY atime"; &DO_IT();
+		    . " ORDER BY atime DESC"; &DO_IT();
 	    $size_sum_delete = 0;
 	    while ((@row_ary = $sth->fetchrow_array)
 		   && $size_sum_delete < $amount_over{$path_over}) {
