@@ -10,7 +10,7 @@
 # database table of all files on the disk, storing their partition,
 # path, file name, size and access age.
 #
-# $Id: cache_db.pl,v 1.7 2000/07/07 14:47:48 marki Exp $
+# $Id: cache_db.pl,v 1.8 2000/07/09 19:16:11 marki Exp $
 ########################################################################
 
 use DBI;
@@ -36,7 +36,7 @@ $hostname = "localhost";
 $dbh = DBI->connect("DBI:mysql:cache:$hostname", $user, $password);
 
 if (defined $dbh) {
-    print "Connection successful: handle: $dbh\n";
+    #print "Connection successful: handle: $dbh\n";
 } else {
     die "Could not make database connect...yuz got problems...\n";
 }
@@ -105,12 +105,13 @@ foreach $cache (@cache_partition) {
 
 $sql = "SELECT SUM(size) from CacheFile where atime > $atime_marked"; &DO_IT();
 $size_marked = $sth->fetchrow;
-$size_marked_gb = $size_marked/1e9;
-print "size_marked=$size_marked_gb GB\n";
 
 # if not enough space is marked for deletion, check quotas
 
 if ($size_marked < $size_marked_min) {
+
+    $size_marked_gb = $size_marked/1e9;
+    print "size_marked=$size_marked_gb GB\n";
 
 #   make list of paths (directories) to consider
 
