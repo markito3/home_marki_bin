@@ -11,7 +11,7 @@
 # database table of all files on the disk, storing their partition,
 # path, file name, size and access age.
 #
-# $Id: cache_db.pl,v 1.24 2000/10/11 14:43:02 marki Exp $
+# $Id: cache_db.pl,v 1.25 2000/10/30 16:37:05 marki Exp $
 ########################################################################
 
 use DBI;
@@ -123,18 +123,16 @@ print LOG "date=$date_now size_marked=$size_marked_gb GB, latency=$latency days\
 
 # if not enough space is marked for deletion and latency low, check quotas
 
-if ($size_marked < $size_marked_min && $latency < 7.0) {
+if ($size_marked < $size_marked_min) {
 
 # set quota based on current latency
 
     if ($latency < 4.0) {
 	$quota = 150e9; # in bytes
-    } elsif ($latency < 5.0) {
-	$quota = 200e9;
-    } elsif ($latency < 6.0) {
+    } elsif ($latency < 7.0) {
 	$quota = 300e9;
     } else {
-	$quota = 500e9;
+	$quota = 10e12;
     }
     $quota_gb = $quota/1.0e9;
     print LOG "quota=$quota_gb GB\n";
