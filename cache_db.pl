@@ -1,16 +1,16 @@
 #!/usr/local/bin/perl
 #
-# Surveys the cache disk. If no files are marked for early deletion,
-# finds directories that are over quota and mark some files for early
-# deletion. Starts with the files that are oldest by access
-# time. Stops when the total size of the unmarked files is below
-# quota.
+# Surveys the cache disk. If the sum of sizes of files marked for
+# early deletion is not large enough, finds directories that are over
+# quota and marks files for early deletion. Starts with the files that
+# are oldest by access time. Stops when the total size of the unmarked
+# files is below quota.
 #
 # Uses a MySQL database to manage the data. Starts by creating a
 # database table of all files on the disk, storing their partition,
 # path, file name, size and access age.
 #
-# $Id: cache_db.pl,v 1.6 2000/07/03 14:42:59 marki Exp $
+# $Id: cache_db.pl,v 1.7 2000/07/07 14:47:48 marki Exp $
 ########################################################################
 
 use DBI;
@@ -19,6 +19,9 @@ $quota = 150e9; # in bytes
 
 $atime_marked = 100; # age cut: files older than this are considered
                      #          marked for deletion
+
+$size_marked_min = 20e9; # in bytes, size of marked files less than
+                         # this triggers quota checking
 
 # list of cache partitions to consider
 $cache_partition[0] = "/w/cache101";
@@ -98,15 +101,16 @@ foreach $cache (@cache_partition) {
     
 }
 
-# find the oldest file on the cache
+# find the summed size of files marked for early deletion
 
-$sql = "SELECT MAX(atime) from CacheFile"; &DO_IT();
-$atime_max = $sth->fetchrow;
-print "atime_max=$atime_max\n";
+$sql = "SELECT SUM(size) from CacheFile where atime > $atime_marked"; &DO_IT();
+$size_marked = $sth->fetchrow;
+$size_marked_gb = $size_marked/1e9;
+print "size_marked=$size_marked_gb GB\n";
 
-# if no file is marked as very old, check quotas
+# if not enough space is marked for deletion, check quotas
 
-if ($atime_max < $atime_marked) {
+if ($size_marked < $size_marked_min) {
 
 #   make list of paths (directories) to consider
 
