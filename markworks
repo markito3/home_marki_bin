@@ -26,65 +26,65 @@ while ($workdisk[$iwd]) {
 #
 # survey the disk
 #
-    open(FIND, "/apps/bin/find $disk |");
+    open(FIND, "find $disk |");
     while ($file = <FIND>) {
 	chomp $file;
 	{
-	  if ( -f $file ) {
-	    $access_time = -A $file;
-	    if ($access_time > $access_time_min[$iwd]) {
-	      #print "$access_time $file\n";
+	    if ( -f $file ) {
+		$access_time = -A $file;
+		if ($access_time > $access_time_min[$iwd]) {
+		    #print "$access_time $file\n";
 #	      open(LS, "ls -l $file |");
 #	      $ls_output = <LS>;
 #	      @field = split(/\s+/, $ls_output);
 #	      $size = $field[4];
-	      $size = -s $file;
-	      #print "$size\n";
-	      $size_array{$file} = $size;
-	      $file_array{$access_time} .= $file . "\n";
-	    }
-	  } else {
-	    if ( -d $file ) {
-		lstat $file;
-              $mod_time = -M _;
-	      if ($mod_time > $access_time_min[$iwd]) {
-	        rmdir $file;
-	        print "DIR : removing $file\n";
-	      }
-            } else {
-              if ( -l $file ) {
-	        $lacctime = (time - (lstat($file))[8])/60/60/24;
-	        $lmodtime = (time - (lstat($file))[9])/60/60/24;
+		    $size = -s $file;
+		    #print "$size\n";
+		    $size_array{$file} = $size;
+		    $file_array{$access_time} .= $file . "\n";
+		}
+	    } else {
+		if ( -d $file ) {
+		    lstat $file;
+		    $mod_time = -M _;
+		    if ($mod_time > $access_time_min[$iwd]) {
+			rmdir $file;
+			print "DIR : removing $file\n";
+		    }
+		} else {
+		    if ( -l $file ) {
+			$lacctime = (time - (lstat($file))[8])/60/60/24;
+			$lmodtime = (time - (lstat($file))[9])/60/60/24;
 #                $atime = -A $file;
 #                $validlink = -e readlink($file);
-                $isalink = -l $file;
+			$isalink = -l $file;
 #print "LNK : examining $file $lacctime $access_time_min[$iwd]\n";
-	        if ($lacctime > $access_time_min[$iwd]) {
-                  unlink $file;
-	          print "LNK : removing $file\n";
-                }
-              }
-            }
-	  }
+			if ($lacctime > $access_time_min[$iwd]) {
+			    unlink $file;
+			    print "LNK : removing $file\n";
+			}
+		    }
+		}
+	    }
 	}
     }
 #
 # loop over the files, oldest first, listing them until target reached
 #
-    fileloop: foreach $access_time (reverse sort numerically keys(%file_array)) {
-	last fileloop if $size_sum >= $size_delete_target;
-	#print "access_time = $access_time\n";
-	#print "file = $file_array{$access_time}\n";
-	@files = split(/\n/, $file_array{$access_time});
-	foreach $file (@files) {
-	    $size = $size_array{$file};
-	    $size_sum += $size;
-	    print "$file $access_time $size $size_sum $size_delete_target\n";
-	    unlink($file);
-	    #print "$file\n";
-	    last fileloop if $size_sum >= $size_delete_target;
-	}
-    }
+  fileloop: foreach $access_time (reverse sort numerically keys(%file_array)) {
+      last fileloop if $size_sum >= $size_delete_target;
+      #print "access_time = $access_time\n";
+      #print "file = $file_array{$access_time}\n";
+      @files = split(/\n/, $file_array{$access_time});
+      foreach $file (@files) {
+	  $size = $size_array{$file};
+	  $size_sum += $size;
+	  print "$file $access_time $size $size_sum $size_delete_target\n";
+	  unlink($file);
+	  #print "$file\n";
+	  last fileloop if $size_sum >= $size_delete_target;
+      }
+  }
     $iwd++;
 }
 exit 0;
