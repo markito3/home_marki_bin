@@ -1,5 +1,6 @@
-#! /bin/tcsh -f
-source .cshrc
+#! /bin/sh
+export PATH=/usr/local/bin:$PATH
+echo PATH = $PATH
 ssh clon00 /home/marki/bin/online_mirror_tar.csh
 cd /home/marki/public_html
 tar xf /work/clas/disk2/marki/html.tar
