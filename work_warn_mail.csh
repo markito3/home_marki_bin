@@ -14,7 +14,7 @@ by going to
 
   http://claspc2.jlab.org/~marki/doc/offline/resource_status.html
 
-and clicking on "Work Disk Usage".
+and clicking on "Auto-Managed Work Disk Usage".
 
 You can locate all of your individual files using the "-atime" option
 of the UNIX "find" command. For example:
