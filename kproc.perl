@@ -1,6 +1,10 @@
 #!/usr/local/bin/perl
-#open (PS,"ps -u marki |");
-open (PS,"ps xwww |");
+$osname = $ENV{OSNAME};
+if ($osname eq SunOS) {
+    open (PS,"/usr/ucb/ps -g |");
+} else {
+    open (PS,"ps xwww |");
+}
 while ($line=<PS>) {
     chop $line;
     $line = " ".$line;
