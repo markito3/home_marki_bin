@@ -11,7 +11,7 @@
 # database table of all files on the disk, storing their partition,
 # path, file name, size and access age.
 #
-# $Id: cache_db.pl,v 1.20 2000/08/23 13:03:57 marki Exp $
+# $Id: cache_db.pl,v 1.21 2000/08/25 12:13:41 marki Exp $
 ########################################################################
 
 use DBI;
@@ -133,7 +133,8 @@ if ($size_marked < $size_marked_min && $latency < 7.0) {
     } else {
 	$quota = 500e9;
     }
-    print("quota=$quota GB\n");
+    $quota_gb = $quota/1.0e9;
+    print("quota=$quota_gb GB\n");
 
 #   make list of paths (directories) to consider
 
