@@ -3,7 +3,7 @@ open (DATE, "date -d '1 week ago' '+%Y-%m-%d %H:%M:%S' |");
 $time_back = <DATE>;
 close (DATE);
 chomp $time_back;
-print "time_back = $time_back\n";
+#print "time_back = $time_back\n";
 $tempfile = "/tmp/caldb_show_changes.txt";
 system "rm -f $tempfile";
 system "echo Changes to the main run index since $time_back. > $tempfile";
@@ -15,7 +15,7 @@ $line = <WC>;
 chomp $line;
 @field = split(/\s+/, $line);
 $nlines = $field[1];
-print "nlines = $nlines\n";
+#print "nlines = $nlines\n";
 if ($nlines == 2) {
     system "rm -f $tempfile";
     open (MESSAGE, ">> $tempfile");
