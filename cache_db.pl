@@ -14,7 +14,7 @@
 # set markfiles=<non-zero> on command line to actually mark files for early
 # deletion.
 #
-# $Id: cache_db.pl,v 1.35 2001/12/18 14:52:39 marki Exp $
+# $Id: cache_db.pl,v 1.36 2002/01/08 16:34:07 marki Exp $
 ########################################################################
 
 use DBI;
@@ -38,8 +38,6 @@ $cache_partition[2] = "/w/cache802";
 $cache_partition[3] = "/w/cache803";
 $cache_partition[4] = "/w/cache1301";
 $cache_partition[5] = "/w/cache1302";
-$cache_partition[6] = "/w/cache1401";
-$cache_partition[7] = "/w/cache1402";
 
 # connect to MySQL database on localhost
 
