@@ -29,7 +29,7 @@ while ($workdisk[$iwd]) {
     open(FIND, "/apps/bin/find $disk |");
     while ($file = <FIND>) {
 	chomp $file;
-	if ( ! -l $file ) {
+	{
 	  $access_time = -A $file;
           $mod_time = -M $file;
 	  if ( -f $file ) {
@@ -48,7 +48,21 @@ while ($workdisk[$iwd]) {
 	    if ( -d $file ) {
 	      if ($mod_time > $access_time_min[$iwd]) {
 	        rmdir $file;
+	        print "DIR : removing $file\n";
 	      }
+            } else {
+              if ( -l $file ) {
+	        $lacctime = (time - (lstat($file))[8])/60/60/24;
+	        $lmodtime = (time - (lstat($file))[9])/60/60/24;
+#                $atime = -A $file;
+#                $validlink = -e readlink($file);
+                $isalink = -l $file;
+#print "LNK : examining $file $lacctime $access_time_min[$iwd]\n";
+	        if ($lacctime > $access_time_min[$iwd]) {
+                  unlink $file;
+	          print "LNK : removing $file\n";
+                }
+              }
             }
 	  }
 	}
