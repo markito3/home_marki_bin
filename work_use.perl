@@ -1,8 +1,7 @@
 #!/usr/local/bin/perl
-open (INPUT, "work_tot_sort.tmp");
 $old_user = "";
 $istat = &CLEAR_COUNTERS($nfile, $size_tot);
-while ($line = <INPUT>) {
+while ($line = <STDIN>) {
     #print $line;
     @field = split(/\s+/, $line);
     $user = $field[2];
