@@ -5,4 +5,10 @@ work_idle.pl /work/clas/calib
 work_idle.pl /work/clas/gsim
 work_idle.pl /work/clas/physana
 work_idle.pl /work/clas/production
+echo ""
+echo "all sizes are in gigabytes"
+echo "size: total size of partition"
+echo "used: used space"
+echo "stale: sum of sizes of files unaccessed in 14 days"
+echo "free: free space"
 exit
