@@ -11,7 +11,7 @@
 # database table of all files on the disk, storing their partition,
 # path, file name, size and access age.
 #
-# $Id: cache_db.pl,v 1.14 2000/07/18 11:55:52 marki Exp $
+# $Id: cache_db.pl,v 1.15 2000/07/21 20:45:21 marki Exp $
 ########################################################################
 
 use DBI;
@@ -34,7 +34,7 @@ $cache_partition[2] = "/w/cache401";
 
 # connect to MySQL database on localhost
 
-$user = "root";
+$user = "clasuser";
 $password = "";
 $hostname = "localhost";
 

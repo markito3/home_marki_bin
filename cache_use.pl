@@ -1,6 +1,6 @@
 #!/usr/local/bin/perl
 #
-# $Id: cache_use.pl,v 1.3 2000/07/12 18:54:51 marki Exp $
+# $Id: cache_use.pl,v 1.4 2000/07/21 20:45:22 marki Exp $
 ########################################################################
 
 use DBI;
@@ -20,7 +20,7 @@ $cache_partition[2] = "/w/cache401";
 
 # connect to MySQL database on localhost
 
-$user = "root";
+$user = "clasuser";
 $password = "";
 $hostname = "localhost";
 
