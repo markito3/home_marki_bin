@@ -11,7 +11,7 @@
 # database table of all files on the disk, storing their partition,
 # path, file name, size and access age.
 #
-# $Id: cache_db.pl,v 1.22 2000/08/25 12:22:04 marki Exp $
+# $Id: cache_db.pl,v 1.23 2000/08/25 14:23:12 marki Exp $
 ########################################################################
 
 use DBI;
@@ -159,7 +159,7 @@ if ($size_marked < $size_marked_min && $latency < 7.0) {
 	$size_sum_gb = $size_sum/1.0e9;
 	$quota_diff_gb = $quota_diff/1.0e9;
 	if ($quota_diff > 0) {
-	    write;
+	    write LOG;
 	    $amount_over{$path_target} = $quota_diff;
 	}
     }
@@ -209,13 +209,13 @@ sub DO_IT {
     return 0;
 }
 
-format STDOUT_TOP =
+format LOG_TOP =
  Size     Over   Directory
 ------- -------- ---------
 .
 
 
-format =
+format LOG =
 @##.### @###.### @<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 $size_sum_gb, $quota_diff_gb, $path_target
 .
