@@ -1,5 +1,5 @@
 #! /bin/sh
-ssh clasweb cat /var/log/httpd/access.log | tail -1000 \
+ssh -n clasweb cat /var/log/httpd/access.log | tail -2000 \
     | grep -v robots.txt | grep -v 129.57.33.191 \
     | grep -v .gif | grep -v /node | grep -v .css | grep -v 216.35.119.76 \
     | grep -v .jpg | grep -v 129.57.35.95 | grep -v /Jdh/ | grep -v /elton/ \
