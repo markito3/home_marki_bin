@@ -1,12 +1,17 @@
 #!/usr/bin/env perl
 $program_name = $ARGV[0];
 $delete_no_prompt = $ARGV[1];
+$all_users = $ARGV[2];
 if (!$program_name) {print "nothing to look for\n"; exit 1;}
 $osname = $ENV{OSNAME};
 if ($osname eq SunOS) {
     open (PS,"/usr/ucb/ps -g |");
 } else {
-    open (PS,"ps uxwww |");
+    if ($all_users) {
+	open (PS,"ps auxwww |");
+    } else {
+	open (PS,"ps uxwww |");
+    }
 }
 $found = 0;
 while (<PS>) {
