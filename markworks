@@ -30,27 +30,33 @@ while ($workdisk[$iwd]) {
     while ($file = <FIND>) {
 	chomp $file;
 	if ( ! -l $file ) {
-	  $access_time = -A $file;
-          $mod_time = -M $file;
-	  if ( -f $file ) {
-	    if ($access_time > $access_time_min[$iwd]) {
-	      #print "$access_time $file\n";
+	    $access_time = -A $file;
+	    $mod_time = -M $file;
+	    if ( -f $file ) {
+		if ($access_time > $access_time_min[$iwd]) {
+		    #print "$access_time $file\n";
 #	      open(LS, "ls -l $file |");
 #	      $ls_output = <LS>;
 #	      @field = split(/\s+/, $ls_output);
 #	      $size = $field[4];
-	      $size = -s $file;
-	      #print "$size\n";
-	      $size_array{$file} = $size;
-	      $file_array{$access_time} .= $file . "\n";
+		    $size = -s $file;
+		    #print "$size\n";
+		    $size_array{$file} = $size;
+		    $file_array{$access_time} .= $file . "\n";
+		}
+	    } else {
+		if ( -d $file ) {
+		    #print "directory: $file\n";
+		    open(DIRLIST, "ls -a $file | wc -l |");
+		    $nfiles = <DIRLIST>;
+		    chop $nfiles;
+		    #print "nfiles=$nfiles\n";
+		    if ($nfiles == 2) {
+			print "removing empty directory $file\n";
+			rmdir $file;
+		    }
+		}
 	    }
-	  } else {
-	    if ( -d $file ) {
-	      if ($mod_time > $access_time_min[$iwd]) {
-	        rmdir $file;
-	      }
-            }
-	  }
 	}
     }
 #
