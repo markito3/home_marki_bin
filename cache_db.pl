@@ -11,7 +11,7 @@
 # database table of all files on the disk, storing their partition,
 # path, file name, size and access age.
 #
-# $Id: cache_db.pl,v 1.21 2000/08/25 12:13:41 marki Exp $
+# $Id: cache_db.pl,v 1.22 2000/08/25 12:22:04 marki Exp $
 ########################################################################
 
 use DBI;
@@ -116,7 +116,9 @@ $sql = "SELECT MAX(atime) from CacheFile where atime < $atime_marked";
 &DO_IT();
 $latency = $sth->fetchrow;
 
-print "size_marked=$size_marked_gb GB, latency=$latency days\n";
+open (LOG, ">> /scratch/cache_db.log");
+$date_now = `date`;
+print LOG "date=$date_now size_marked=$size_marked_gb GB, latency=$latency days\n";
 
 # if not enough space is marked for deletion and latency low, check quotas
 
@@ -134,7 +136,7 @@ if ($size_marked < $size_marked_min && $latency < 7.0) {
 	$quota = 500e9;
     }
     $quota_gb = $quota/1.0e9;
-    print("quota=$quota_gb GB\n");
+    print LOG "quota=$quota_gb GB\n";
 
 #   make list of paths (directories) to consider
 
@@ -184,7 +186,7 @@ if ($size_marked < $size_marked_min && $latency < 7.0) {
 		    $command = "jcache -d /cache$path_over/$name";
 		    # for debugging, overwrite command with something innocuous
 		    # $command = "";
-		    print "marking /cache$path_over/$name, atime=$atime\n";
+		    print LOG "marking /cache$path_over/$name, atime=$atime\n";
 		    system($command);
 		}
 	    }
@@ -192,7 +194,9 @@ if ($size_marked < $size_marked_min && $latency < 7.0) {
     }
 }
 
-exit;
+close (LOG);
+
+exit 0;
 
 sub DO_IT {    
 
