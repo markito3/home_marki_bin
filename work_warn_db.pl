@@ -1,6 +1,6 @@
 #!/usr/bin/env perl
 #
-# $Id: work_warn_db.pl,v 1.11 2001/11/15 14:24:16 marki Exp $
+# $Id: work_warn_db.pl,v 1.12 2002/04/19 15:52:24 marki Exp $
 ########################################################################
 
 use DBI;
@@ -10,7 +10,7 @@ eval "\$$1=\$2" while $ARGV[0] =~ /^(\w+)=(.*)/ && shift; # see camel book
 
 # initialize constant
 $used_fraction_target = 0.70;
-$access_age_cut = 5.0; # days
+$access_age_cut = 5; # days
 $atime_big = 365*100;
 
 # list of work partitions to consider
@@ -94,7 +94,12 @@ exit 0;
 sub SEND_MAIL {
     open (MAIL, "| mail -s \"Your work disk files\" $user\@jlab.org");
     print MAIL "You have files on the work disk that may be deleted during"
-	. " the next two days.\nThey are in the following directories:\n\n";
+	. " the next\n"
+	    . "two days. They have not been read for at least"
+		. " $access_age_cut days. As a courtesy\n"
+		    . "to others, please delete them if you no longer"
+			. " need them. They are in\n"
+			    . "the following directories:\n\n";
     foreach $ip (0 .. $#pathlist) {
 	print MAIL "  $pathlist[$ip]\n";
     }
