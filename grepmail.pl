@@ -1,4 +1,4 @@
-#!/usr/local/bin/perl
+#!/usr/bin/env perl
 
 $pattern = shift(@ARGV); # pattern to search for
 print "/pattern/=/$pattern/\n";
