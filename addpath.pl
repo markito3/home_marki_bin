@@ -9,23 +9,34 @@
 # This results in a consistent path, regardless of how far down you are
 # in the process stack.
 #
+# Options
+#
+# -e: add path names to the end of the path.
+#
+if ($ARGV[0] eq '-e') {
+    $add_to_end = 1;
+    shift @ARGV;
+} else {
+    $add_to_end = 0;
+}
 $line=$ENV{'PATH'};
-#print "$line\n";
 @field = split(/:/,$line);
-#print "number of fields $#field\n";
-#print "number of new fields $#ARGV\n";
 $newpath = $line;
 for($i = $#ARGV; $i >= 0; $i--) {
-  #print "$i $ARGV[$i]\n";
   $exists = 0;
   for ($j = 0; !$exists && $j <= $#field ; $j++) {
     $path = $field[$j];
-    #print "$j $path\n";
     if ($path eq $ARGV[$i]) {
       $exists = 1;
     }
   }
-  if (!$exists) {$newpath = $ARGV[$i] . ":" . $newpath;}
+  if (!$exists) {
+      if ($add_to_end) {
+	  $newpath = $newpath . ":" . $ARGV[$i];
+      } else {
+	  $newpath = $ARGV[$i] . ":" . $newpath;
+      }
+  }
 }
 print "setenv PATH $newpath\n";
 exit
