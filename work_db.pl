@@ -1,6 +1,6 @@
 #!/usr/bin/env perl
 #
-# $Id: work_db.pl,v 1.2 2001/10/10 20:25:37 marki Exp $
+# $Id: work_db.pl,v 1.3 2001/10/10 21:27:41 marki Exp $
 ########################################################################
 
 use DBI;
@@ -31,19 +31,16 @@ if (!$nodbmake) {
     MAKE_DB();
 }
 
-$sql = "SELECT DISTINCT uid from WorkFile";
-DO_IT(\$sth);
-$nuser = 0;
-while ($uid_fetch = $sth->fetchrow) {
-    $user{$uid_fetch} = getpwuid($uid_fetch);
-    #print "uid = $uid_fetch, user = $user{$uid_fetch}\n";
-    $nuser++;
-}
-
 $sql = "SELECT uid, sum(size) AS sum_size, count(*) FROM WorkFile GROUP BY uid ORDER BY sum_size DESC";
 DO_IT(\$sth);
 while (($uid, $size, $count) = $sth->fetchrow_array) {
-    print "$user{$uid} $size $count\n";
+    $user = getpwuid($uid);
+    print "$user $size $count\n";
+    $sql = "SELECT partition, sum(size), count(*) FROM WorkFile WHERE uid=$uid GROUP BY partition ORDER BY partition";
+    DO_IT(\$sthp);
+    while (($partition, $sizep, $countp) = $sthp->fetchrow_array) {
+	print "$partition, $sizep, $countp\n";
+    }
 }
 
 exit 0;
