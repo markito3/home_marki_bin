@@ -1,6 +1,6 @@
 #!/usr/bin/env perl
 #
-# $Id: work_warn_db.pl,v 1.9 2001/11/14 12:54:00 marki Exp $
+# $Id: work_warn_db.pl,v 1.10 2001/11/14 14:42:55 marki Exp $
 ########################################################################
 
 use DBI;
@@ -59,7 +59,7 @@ foreach $ip (0 .. $#work_partition) {
 	$atime_last = $atime;
     }
     if ($dt) {
-	$atime_cut[$ip] = $atime_last;
+	$atime_cut[$ip] = $atime_last - 0.000694; # subtract a minute to be on the safe side
     } else {
 	$atime_cut[$ip] = $atime_big;
     }
