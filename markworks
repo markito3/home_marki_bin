@@ -1,0 +1,79 @@
+#!/apps/perl/bin/perl
+# Now deletes empty directories - mcj - 10-4-99
+#
+$access_time_min[0] = 7.0;
+$access_time_min[1] = 7.0;
+$access_time_min[2] = 7.0;
+$access_time_min[3] = 7.0;
+$free_fraction[0] = 0.2;
+$free_fraction[1] = 0.2;
+$free_fraction[2] = 0.2;
+$free_fraction[3] = 0.4;
+$workdisk[0] = "/w/work501/.";
+$workdisk[1] = "/w/work601/.";
+$workdisk[2] = "/w/work502/cleanme/.";
+$workdisk[3] = "/work/.";
+$iwd = 0;
+while ($workdisk[$iwd]) {
+    $disk = $workdisk[$iwd];
+    undef %file_array;
+    undef %size_array;
+    $size_sum = 0;
+#
+# calculate target to delete
+#
+    open(DF, "df -k $disk |");
+    $line = <DF>;
+    $line = <DF>;
+    @field = split(/\s+/, $line);
+    $size_tot = $field[1];
+    $size_avail = $field[3];
+    $size_delete_target = 1000*($free_fraction[$iwd]*$size_tot - $size_avail);
+#
+# survey the disk
+#
+    open(FIND, "find $disk \\\( -type f -o -type d \\\) |");
+    while ($file = <FIND>) {
+	chomp $file;
+	$access_time = -A $file;
+        $mod_time = -M $file;
+	if ( -f $file ) {
+	  if ($access_time > $access_time_min[$iwd]) {
+	    #print "$access_time $file\n";
+#	    open(LS, "ls -l $file |");
+#	    $ls_output = <LS>;
+#	    @field = split(/\s+/, $ls_output);
+#	    $size = $field[4];
+	    $size = -s $file;
+	    #print "$size\n";
+	    $size_array{$file} = $size;
+	    $file_array{$access_time} .= $file . "\n";
+	  }
+	} else {
+	  if ($mod_time > 7) {
+	    rmdir $file;
+	  }
+	}
+    }
+#
+# loop over the files, oldest first, listing them until target reached
+#
+    fileloop: foreach $access_time (reverse sort numerically keys(%file_array)) {
+	last fileloop if $size_sum >= $size_delete_target;
+	#print "access_time = $access_time\n";
+	#print "file = $file_array{$access_time}\n";
+	@files = split(/\n/, $file_array{$access_time});
+	foreach $file (@files) {
+	    $size = $size_array{$file};
+	    $size_sum += $size;
+	    print "$file $access_time $size $size_sum $size_delete_target\n";
+	    unlink($file);
+	    #print "$file\n";
+	    last fileloop if $size_sum >= $size_delete_target;
+	}
+    }
+    $iwd++;
+}
+exit 0;
+
+sub numerically {$a <=> $b;}
