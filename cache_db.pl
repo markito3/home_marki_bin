@@ -11,12 +11,10 @@
 # database table of all files on the disk, storing their partition,
 # path, file name, size and access age.
 #
-# $Id: cache_db.pl,v 1.19 2000/08/21 15:19:39 marki Exp $
+# $Id: cache_db.pl,v 1.20 2000/08/23 13:03:57 marki Exp $
 ########################################################################
 
 use DBI;
-
-$quota = 150e9; # in bytes
 
 $atime_marked = 100; # age cut: files older than this are considered
                      #          marked for deletion
@@ -26,8 +24,6 @@ $size_marked_min = 20e9; # in bytes, size of marked files less than
 
 $atime_stable = 5.0/24.0/60.0; # age in days before file considered for
                                    # deletion
-
-$latency_trigger = 5.0; # if latency goes below this, start enforcing quotas
 
 # list of cache partitions to consider
 $cache_partition[0] = "/w/cache101";
@@ -120,11 +116,24 @@ $sql = "SELECT MAX(atime) from CacheFile where atime < $atime_marked";
 &DO_IT();
 $latency = $sth->fetchrow;
 
-#print "size_marked=$size_marked_gb GB, latency=$latency days\n";
+print "size_marked=$size_marked_gb GB, latency=$latency days\n";
 
 # if not enough space is marked for deletion and latency low, check quotas
 
-if ($size_marked < $size_marked_min && $latency < $latency_trigger) {
+if ($size_marked < $size_marked_min && $latency < 7.0) {
+
+# set quota based on current latency
+
+    if ($latency < 4.0) {
+	$quota = 150e9; # in bytes
+    } elsif ($latency < 5.0) {
+	$quota = 200e9;
+    } elsif ($latency < 6.0) {
+	$quota = 300e9;
+    } else {
+	$quota = 500e9;
+    }
+    print("quota=$quota GB\n");
 
 #   make list of paths (directories) to consider
 
