@@ -7,9 +7,11 @@ while ($line = <STDIN>) {
     $user = $field[2];
     #print "user = $user\n";
     if ($user ne $old_user) {
-	#print "new user\n";
-	$istat = &PROCESS_OLD_USER($old_user, $nfile, $size_tot);
-	$istat = &CLEAR_COUNTERS($nfile, $size_tot);
+	#print "new user=$user\n";
+	if ($old_user ne "") {
+	    $istat = &PROCESS_OLD_USER($old_user, $nfile, $size_tot);
+	    $istat = &CLEAR_COUNTERS($nfile, $size_tot);
+	}
     }
     $nfile++;
     $size = $field[4];
@@ -21,8 +23,8 @@ while ($line = <STDIN>) {
 $istat = &PROCESS_OLD_USER($old_user, $nfile, $size_tot);
 
 sub PROCESS_OLD_USER {
-    #print "processing old user\n";
     local($user, $nfile, $size_tot) = @_;
+    #print "processing old user=$user\n";
     print "$size_tot bytes owned by $user, in $nfile files\n";
     return 0;
 }
