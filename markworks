@@ -30,9 +30,8 @@ while ($workdisk[$iwd]) {
     while ($file = <FIND>) {
 	chomp $file;
 	{
-	  $access_time = -A $file;
-          $mod_time = -M $file;
 	  if ( -f $file ) {
+	    $access_time = -A $file;
 	    if ($access_time > $access_time_min[$iwd]) {
 	      #print "$access_time $file\n";
 #	      open(LS, "ls -l $file |");
@@ -46,6 +45,8 @@ while ($workdisk[$iwd]) {
 	    }
 	  } else {
 	    if ( -d $file ) {
+		lstat $file;
+              $mod_time = -M _;
 	      if ($mod_time > $access_time_min[$iwd]) {
 	        rmdir $file;
 	        print "DIR : removing $file\n";
