@@ -1,5 +1,7 @@
 #!/apps/perl/bin/perl
-# $Id: markworks,v 1.9 2000/06/12 15:31:17 marki Exp $
+#
+# $Id: markworks,v 1.10 2000/06/12 16:10:40 marki Exp $
+#
 # Takes command line arguments rather than hardcoded parameters. - MCJ 3-17-00
 #
 # Now deletes empty directories - mcj - 10-4-99
@@ -26,34 +28,46 @@ $size_delete_target = 1000*($free_fraction*$size_tot - $size_avail);
 open(FIND, "find $disk |");
 while ($file = <FIND>) {
     chomp $file;
-    if ( -f $file ) {
-	$access_time = -A $file;
-	if ($access_time > $access_time_min) {
-	    #print "$access_time $file\n";
+    $link = 0; # assume it's not a symbolic link
+    $regular = 0; # assume it's not a regular file
+    $directory = 0; # assume it's not a directory
+    # Don't want to do -f or -s or -d on a link; that updates the link's
+    # access time. Note also that -f gives true for a symbolic link.
+    if (-l $file) {
+	$link = 1; # it's a symbolic link
+	lstat $file;
+	$access_time = -A _;
+	$size = 0; # assume zero size, links are small
+    } else {
+	if (-f $file) {
+	    $regular = 1; # it's a regular file
+	    $access_time = -A $file;
 	    $size = -s $file;
+	} elsif (-d $file) {
+	    $directory = 1; # it's a directory
+	}
+    }
+    if ($regular || $link) {
+	if ($access_time > $access_time_min) {
+	    # add it to the deletion candidates
+	    #print "$access_time $file\n";
 	    #print "$size\n";
 	    $size_array{$file} = $size;
 	    $file_array{$access_time} .= $file . "\n";
 	}
-    } else {
-	if ( -d $file ) {
-	    lstat $file;
-	    $mod_time = -M _;
-	    if ($mod_time > $access_time_min) {
-		rmdir $file;
-		print "DIR : removing $file\n";
-	    }
-	} else {
-	    if ( -l $file ) {
-		$lacctime = (time - (lstat($file))[8])/60/60/24;
-		$lmodtime = (time - (lstat($file))[9])/60/60/24;
-		$isalink = -l $file;
-		if ($lacctime > $access_time_min) {
-		    unlink $file;
-		    print "LNK : removing $file\n";
-		}
-	    }
+    } elsif ($directory) {
+	# check whether it is empty and delete it if it is.
+	#print "directory: $file\n";
+	open(DIRLIST, "ls -a $file | wc -l |");
+	$nfiles = <DIRLIST>;
+	chop $nfiles;
+	#print "nfiles=$nfiles\n";
+	# empty directories only contain "." and ".."
+	if ($nfiles == 2) {
+	    print "removing empty directory $file\n";
+	    rmdir $file;
 	}
+	close(DIRLIST);
     }
 }
 #
