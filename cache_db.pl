@@ -11,7 +11,7 @@
 # database table of all files on the disk, storing their partition,
 # path, file name, size and access age.
 #
-# $Id: cache_db.pl,v 1.28 2001/03/29 13:21:56 marki Exp $
+# $Id: cache_db.pl,v 1.29 2001/03/29 13:26:31 marki Exp $
 ########################################################################
 
 use DBI;
@@ -19,7 +19,7 @@ use DBI;
 $atime_marked = 100; # age cut: files older than this are considered
                      #          marked for deletion
 
-$size_marked_min = 1e9; # in bytes, size of marked files less than
+$size_marked_min = 0.0e9; # in bytes, size of marked files less than
                          # this triggers quota checking
 
 $atime_stable = 5.0/24.0/60.0; # age in days before file considered for
@@ -123,7 +123,7 @@ print LOG "date=$date_now size_marked=$size_marked_gb GB, latency=$latency days\
 
 # if not enough space is marked for deletion and latency low, check quotas
 
-if ($size_marked < $size_marked_min) {
+if ($size_marked <= $size_marked_min) {
 
 # set quota based on current latency
 
