@@ -11,7 +11,7 @@
 # database table of all files on the disk, storing their partition,
 # path, file name, size and access age.
 #
-# $Id: cache_db.pl,v 1.16 2000/07/24 15:53:54 marki Exp $
+# $Id: cache_db.pl,v 1.17 2000/07/25 12:55:43 marki Exp $
 ########################################################################
 
 use DBI;
@@ -138,8 +138,8 @@ if ($size_marked < $size_marked_min) {
 	$quota_diff = $size_sum - $quota;
 	$size_sum_gb = $size_sum/1.0e9;
 	$quota_diff_gb = $quota_diff/1.0e9;
-	write;
 	if ($quota_diff > 0) {
+	    write;
 	    $amount_over{$path_target} = $quota_diff;
 	}
     }
@@ -150,7 +150,6 @@ if ($size_marked < $size_marked_min) {
     foreach $path_over (@path_active) {
 	if ($amount_over{$path_over}) {
 	    $amt_over_gb = $amount_over{$path_over}/1.0e9;
-	    print "$path_over over by $amt_over_gb GB\n";
 	    $sql = "SELECT partition, name, size, atime from CacheFile"
 		. " where path=\"$path_over\" and atime < $atime_marked"
 		    . " ORDER BY atime"; &DO_IT();
