@@ -11,10 +11,16 @@
 # database table of all files on the disk, storing their partition,
 # path, file name, size and access age.
 #
-# $Id: cache_db.pl,v 1.30 2001/05/30 20:05:40 marki Exp $
+# set markfiles=<non-zero> on command line to actually mark files for early
+# deletion.
+#
+# $Id: cache_db.pl,v 1.31 2001/07/09 12:07:14 marki Exp $
 ########################################################################
 
 use DBI;
+
+# get command line parameters
+eval "\$$1=\$2" while $ARGV[0] =~ /^(\w+)=(.*)/ && shift; # see camel book
 
 $atime_marked = 100; # age cut: files older than this are considered
                      #          marked for deletion
@@ -183,10 +189,13 @@ if ($size_marked <= $size_marked_min) {
 		if ($atime > $atime_stable) {
 		    $size_sum_delete += $size;
 		    $command = "jcache -d $path_over/$name";
-		    # for debugging, overwrite command with something innocuous
-		    # $command = "";
-		    print LOG "marking $path_over/$name, atime=$atime\n";
-		    system($command);
+		    if ($markfiles) {
+			print LOG "marking $path_over/$name, atime=$atime\n";
+			system($command);
+		    } else {
+			print LOG "not marking $path_over/$name,"
+			    . " atime=$atime\n";
+		    }
 		}
 	    }
 	}
