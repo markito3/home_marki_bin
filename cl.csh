@@ -11,8 +11,6 @@ rm -i *scratch*
 rm -i last.kumac*
 rm -i higz_windows.dat
 rm -i paw.metafile
-rm -i kofialog.dat
 rm -i a.out
-rm -i 'hbook$file'
 rm -i core
-ls -l *.ps *.o ftn* *.bfp *.save*
+ls -l *.ps *.o ftn* *.bfp *.save* *.log *.txt .#*
