@@ -10,12 +10,15 @@
 # database table of all files on the disk, storing their partition,
 # path, file name, size and access age.
 #
-# $Id: cache_db.pl,v 1.4 2000/06/22 15:00:55 marki Exp $
+# $Id: cache_db.pl,v 1.5 2000/06/23 18:58:16 marki Exp $
 ########################################################################
 
 use DBI;
 
 $quota = 150e9; # in bytes
+
+$atime_marked = 100; # age cut: files older than this are considered
+                     #          marked for deletion
 
 # list of cache partitions to consider
 $cache_partition[0] = "/w/cache101";
@@ -103,7 +106,7 @@ print "atime_max=$atime_max\n";
 
 # if no file is marked as very old, check quotas
 
-if ($atime_max < 30) {
+if ($atime_max < $atime_marked) {
 
 #   make list of paths (directories) to consider
 
@@ -119,7 +122,7 @@ if ($atime_max < 30) {
 
     foreach $path_target (@path_active) {
 	$sql = "SELECT SUM(size) from CacheFile"
-	    . " where path=\"$path_target\" and atime < 30";
+	    . " where path=\"$path_target\" and atime < $atime_marked";
 	&DO_IT();
 	$size_sum = $sth->fetchrow;
 	$quota_diff = $size_sum - $quota;
@@ -136,7 +139,7 @@ if ($atime_max < 30) {
 	if ($amount_over{$path_over}) {
 	    print "$path_over $amount_over{$path_over}\n";
 	    $sql = "SELECT partition, name, size from CacheFile"
-		. " where path=\"$path_over\" and atime < 30"
+		. " where path=\"$path_over\" and atime < $atime_marked"
 		    . " ORDER BY atime DESC"; &DO_IT();
 	    $size_sum_delete = 0;
 	    while ((@row_ary = $sth->fetchrow_array)
@@ -147,8 +150,9 @@ if ($atime_max < 30) {
 		$size_sum_delete += $size;
 		#print "ip=$ip name=$name size=$size size_sum_delete=$size_sum_delete\n";
 		$command = "jcache -d /cache$path_over/$name";
-		print "command=\"$command\"\n";
-		#system($command);
+		# for debugging # $command = "ls -l /cache$path_over/$name";
+		print "executing \"$command\"\n";
+		system($command);
 	    }
 	}
     }
