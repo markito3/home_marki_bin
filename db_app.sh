@@ -4,7 +4,7 @@ app_name=$2
 
 xterm \
      -title "$app_name" -geo 120x40 -fg black -bg lightblue -cr red \
-	-fn 7x13bold -fb 7x13bold \
+	-fn 7x14 -fb 7x14bold \
 	-xrm \
 	'XTerm*VT100.translations: #override \n \
 	<Key>Num_Lock:    string(0x1b)      string("OP") \n \
