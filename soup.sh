@@ -1,4 +1,4 @@
 #!/bin/sh
 sleep $1
-xv /home/marki/misc/soup.gif
+xview ~marki/misc/soup.gif >& /dev/null
 exit
