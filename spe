@@ -1,2 +1,2 @@
 setenv EPICSB ~marki/epics/private/epicsB
-setup_epics
+source $EPICSB/scripts/setup_epics
