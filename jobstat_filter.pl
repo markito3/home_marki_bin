@@ -1,5 +1,5 @@
 #!/usr/bin/env perl
-#$id$
+# $Id: jobstat_filter.pl,v 1.4 2001/10/02 13:43:41 marki Exp $
 print "Columns are: job_no jobname user project status queue submit_time"
     . " start_time node cpu_time.\n";
 print "If job pending, dependency condition follows submit_time.\n";
