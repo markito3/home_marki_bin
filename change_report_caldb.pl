@@ -22,5 +22,5 @@ if ($nlines == 2) {
     print MESSAGE "No changes since $time_back.\n";
     close (MESSAGE);
 }
-system "mail -s 'CalDB changes for the week past' marki\@jlab.org < $tempfile";
+system "mail -s 'CalDB changes for the week past' clas_offline\@jlab.org < $tempfile";
 # end of perl script
