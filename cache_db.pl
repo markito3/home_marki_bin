@@ -11,7 +11,7 @@
 # database table of all files on the disk, storing their partition,
 # path, file name, size and access age.
 #
-# $Id: cache_db.pl,v 1.17 2000/07/25 12:55:43 marki Exp $
+# $Id: cache_db.pl,v 1.18 2000/08/18 18:14:36 marki Exp $
 ########################################################################
 
 use DBI;
@@ -26,6 +26,8 @@ $size_marked_min = 20e9; # in bytes, size of marked files less than
 
 $atime_stable = 5.0/24.0/60.0; # age in days before file considered for
                                    # deletion
+
+$latency_trigger = 5.0; # if latency goes below this, start enforcing quotas
 
 # list of cache partitions to consider
 $cache_partition[0] = "/w/cache101";
@@ -110,13 +112,19 @@ foreach $cache (@cache_partition) {
 
 $sql = "SELECT SUM(size) from CacheFile where atime > $atime_marked"; &DO_IT();
 $size_marked = $sth->fetchrow;
+$size_marked_gb = $size_marked/1e9;
 
-# if not enough space is marked for deletion, check quotas
+# find the age of oldest file not marked for early deletion
 
-if ($size_marked < $size_marked_min) {
+$sql = "SELECT MAX(atime) from CacheFile where atime < $atime_marked";
+&DO_IT();
+$latency = $sth->fetchrow;
 
-    $size_marked_gb = $size_marked/1e9;
-    print "size_marked=$size_marked_gb GB\n";
+print "size_marked=$size_marked_gb GB, latency=$latency days\n";
+
+# if not enough space is marked for deletion and latency low, check quotas
+
+if ($size_marked < $size_marked_min && $latency < $latency_trigger) {
 
 #   make list of paths (directories) to consider
 
@@ -164,7 +172,8 @@ if ($size_marked < $size_marked_min) {
 		if ($atime > $atime_stable) {
 		    $size_sum_delete += $size;
 		    $command = "jcache -d /cache$path_over/$name";
-		    # for debugging # $command = "ls -l /cache$path_over/$name";
+		    # for debugging, overwrite command with something innocuous
+		    # $command = "";
 		    print "marking /cache$path_over/$name, atime=$atime\n";
 		    system($command);
 		}
