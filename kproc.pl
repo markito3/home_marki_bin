@@ -1,5 +1,6 @@
 #!/usr/local/bin/perl
 $program_name = $ARGV[0];
+$delete_no_prompt = $ARGV[1];
 if (!$program_name) {print "nothing to look for\n"; exit 1;}
 $osname = $ENV{OSNAME};
 if ($osname eq SunOS) {
@@ -14,12 +15,16 @@ while (<PS>) {
 	print;
 	@field = split(/\s+/);
 	$proc_id = $field[1];
-	print "kill process $proc_id? ";
-	$response = <STDIN>;
-	chop $response;
-	if ($response eq "y") {
-	    print "killing process $proc_id\n";
+	if ($delete_no_prompt) {
 	    system("kill -9 $proc_id");
+	} else {
+	    print "kill process $proc_id? ";
+	    $response = <STDIN>;
+	    chop $response;
+	    if ($response eq "y") {
+		print "killing process $proc_id\n";
+		system("kill -9 $proc_id");
+	    }
 	}
     }
 }
