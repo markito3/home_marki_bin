@@ -1,18 +1,12 @@
 #!/apps/perl/bin/perl
+#
+# Takes command line arguments rather than hardcoded parameters. - MCJ 3-17-00
+#
 # Now deletes empty directories - mcj - 10-4-99
 #
-$access_time_min[0] = 7.0;
-$access_time_min[1] = 7.0;
-$access_time_min[2] = 7.0;
-$access_time_min[3] = 7.0;
-$free_fraction[0] = 0.2;
-$free_fraction[1] = 0.2;
-$free_fraction[2] = 0.2;
-$free_fraction[3] = 0.4;
-$workdisk[0] = "/w/work501/.";
-$workdisk[1] = "/w/work601/.";
-$workdisk[2] = "/w/work502/cleanme/.";
-$workdisk[3] = "/work/.";
+$access_time_min[0] = $ARGV[0];
+$free_fraction[0] = $ARGV[1];
+$workdisk[0] = $ARGV[2];
 $iwd = 0;
 while ($workdisk[$iwd]) {
     $disk = $workdisk[$iwd];
@@ -32,26 +26,30 @@ while ($workdisk[$iwd]) {
 #
 # survey the disk
 #
-    open(FIND, "find $disk \\\( -type f -o -type d \\\) |");
+    open(FIND, "/apps/bin/find $disk |");
     while ($file = <FIND>) {
 	chomp $file;
-	$access_time = -A $file;
-        $mod_time = -M $file;
-	if ( -f $file ) {
-	  if ($access_time > $access_time_min[$iwd]) {
-	    #print "$access_time $file\n";
-#	    open(LS, "ls -l $file |");
-#	    $ls_output = <LS>;
-#	    @field = split(/\s+/, $ls_output);
-#	    $size = $field[4];
-	    $size = -s $file;
-	    #print "$size\n";
-	    $size_array{$file} = $size;
-	    $file_array{$access_time} .= $file . "\n";
-	  }
-	} else {
-	  if ($mod_time > 7) {
-	    rmdir $file;
+	if ( ! -l $file ) {
+	  $access_time = -A $file;
+          $mod_time = -M $file;
+	  if ( -f $file ) {
+	    if ($access_time > $access_time_min[$iwd]) {
+	      #print "$access_time $file\n";
+#	      open(LS, "ls -l $file |");
+#	      $ls_output = <LS>;
+#	      @field = split(/\s+/, $ls_output);
+#	      $size = $field[4];
+	      $size = -s $file;
+	      #print "$size\n";
+	      $size_array{$file} = $size;
+	      $file_array{$access_time} .= $file . "\n";
+	    }
+	  } else {
+	    if ( -d $file ) {
+	      if ($mod_time > $access_time_min[$iwd]) {
+	        rmdir $file;
+	      }
+            }
 	  }
 	}
     }
