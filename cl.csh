@@ -13,4 +13,4 @@ rm -i higz_windows.dat
 rm -i paw.metafile
 rm -i a.out
 rm -i core
-ls -l *.ps *.o ftn* *.bfp *.save* *.log *.txt .#*
+ls -l *.ps *.o ftn* *.bfp *.save* *.log *.txt .#* *.pdf
