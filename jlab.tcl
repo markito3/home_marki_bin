@@ -2,7 +2,7 @@
 set ioc $argv
 set passwd "********"
 set timeout 30
-spawn slogin jlab.jlab.org
+spawn slogin login.jlab.org
 expect "password"
 send "$passwd\r"
 expect "bash"
