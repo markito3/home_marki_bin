@@ -10,7 +10,7 @@ set password $expect_out(1,string)
 #
 # login
 #
-spawn telnet cebaf2
+spawn telnet cebaf2.cebaf.gov
 expect "Username:"
 send "marki\r"
 expect "Password:"
