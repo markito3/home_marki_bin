@@ -22,8 +22,8 @@ while ($more) { # go
     }
     #print "line = $line";
     #print "ind = $ind\n";
-# check for "From" line. If this is one, save it for printing later
-    if ($line =~ /^From/) {$line_from = $line;}
+# check for "From " line. If this is one, save it for printing later
+    if ($line =~ /^From /) {$line_from = $line;}
 # put line in buffer at current buffer index
     $linebuf[$ind] = $line;
     #print "linebuf[$ind] = $linebuf[$ind]";
