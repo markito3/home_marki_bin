@@ -8,7 +8,7 @@ next 24 hours.
 You can locate the files using the "-atime" option of the UNIX "find"
 command. For example:
 
-  find /work/clas/disk1/. -user marki -atime +3
+  find /work/clas/disk1/ -user marki -atime +3
 
 You can find a description of the auto-deletion algorithm at
 
