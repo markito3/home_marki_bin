@@ -1,5 +1,5 @@
 #!/apps/perl/bin/perl
-#
+# $Id: markworks,v 1.9 2000/06/12 15:31:17 marki Exp $
 # Takes command line arguments rather than hardcoded parameters. - MCJ 3-17-00
 #
 # Now deletes empty directories - mcj - 10-4-99
@@ -26,40 +26,31 @@ $size_delete_target = 1000*($free_fraction*$size_tot - $size_avail);
 open(FIND, "find $disk |");
 while ($file = <FIND>) {
     chomp $file;
-    {
-	if ( -f $file ) {
-	    $access_time = -A $file;
-	    if ($access_time > $access_time_min) {
-		#print "$access_time $file\n";
-#	      open(LS, "ls -l $file |");
-#	      $ls_output = <LS>;
-#	      @field = split(/\s+/, $ls_output);
-#	      $size = $field[4];
-		$size = -s $file;
-		#print "$size\n";
-		$size_array{$file} = $size;
-		$file_array{$access_time} .= $file . "\n";
+    if ( -f $file ) {
+	$access_time = -A $file;
+	if ($access_time > $access_time_min) {
+	    #print "$access_time $file\n";
+	    $size = -s $file;
+	    #print "$size\n";
+	    $size_array{$file} = $size;
+	    $file_array{$access_time} .= $file . "\n";
+	}
+    } else {
+	if ( -d $file ) {
+	    lstat $file;
+	    $mod_time = -M _;
+	    if ($mod_time > $access_time_min) {
+		rmdir $file;
+		print "DIR : removing $file\n";
 	    }
 	} else {
-	    if ( -d $file ) {
-		lstat $file;
-		$mod_time = -M _;
-		if ($mod_time > $access_time_min) {
-		    rmdir $file;
-		    print "DIR : removing $file\n";
-		}
-	    } else {
-		if ( -l $file ) {
-		    $lacctime = (time - (lstat($file))[8])/60/60/24;
-		    $lmodtime = (time - (lstat($file))[9])/60/60/24;
-#                $atime = -A $file;
-#                $validlink = -e readlink($file);
-		    $isalink = -l $file;
-#print "LNK : examining $file $lacctime $access_time_min\n";
-		    if ($lacctime > $access_time_min) {
-			unlink $file;
-			print "LNK : removing $file\n";
-		    }
+	    if ( -l $file ) {
+		$lacctime = (time - (lstat($file))[8])/60/60/24;
+		$lmodtime = (time - (lstat($file))[9])/60/60/24;
+		$isalink = -l $file;
+		if ($lacctime > $access_time_min) {
+		    unlink $file;
+		    print "LNK : removing $file\n";
 		}
 	    }
 	}
