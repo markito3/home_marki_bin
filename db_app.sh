@@ -1,5 +1,7 @@
 #!/bin/sh
-app_name=$1
+host=$1
+app_name=$2
+
 xterm \
      -title "$app_name" -geo 120x40 -fg black -bg lightblue -cr red \
 	-fn 7x13bold -fb 7x13bold \
@@ -22,6 +24,6 @@ xterm \
 	<Key>KP_7:        string(0x1b)      string("Ow") \n \
 	<Key>KP_8:        string(0x1b)      string("Ox") \n \
 	<Key>KP_9:        string(0x1b)      string("Oy")' \
-	-e ssh -t db1 $app_name
+	-e ssh -t $host "source .login ; $app_name"
 #
 # end of Bourne shell script
