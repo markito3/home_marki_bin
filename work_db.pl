@@ -1,6 +1,6 @@
 #!/usr/bin/env perl
 #
-# $Id: work_db.pl,v 1.1 2001/10/10 20:23:21 marki Exp $
+# $Id: work_db.pl,v 1.2 2001/10/10 20:25:37 marki Exp $
 ########################################################################
 
 use DBI;
@@ -32,7 +32,7 @@ if (!$nodbmake) {
 }
 
 $sql = "SELECT DISTINCT uid from WorkFile";
-DO_IT();
+DO_IT(\$sth);
 $nuser = 0;
 while ($uid_fetch = $sth->fetchrow) {
     $user{$uid_fetch} = getpwuid($uid_fetch);
@@ -41,7 +41,7 @@ while ($uid_fetch = $sth->fetchrow) {
 }
 
 $sql = "SELECT uid, sum(size) AS sum_size, count(*) FROM WorkFile GROUP BY uid ORDER BY sum_size DESC";
-DO_IT();
+DO_IT(\$sth);
 while (($uid, $size, $count) = $sth->fetchrow_array) {
     print "$user{$uid} $size $count\n";
 }
@@ -116,10 +116,12 @@ sub MAKE_DB {
 
 sub DO_IT {    
 
-    $sth = $dbh->prepare($sql)
+    my ($sthref) = @_;
+
+    $$sthref = $dbh->prepare($sql)
 	or die "Can't prepare $sql: $dbh->errstr\n";
     
-    $rv = $sth->execute
+    $rv = $$sthref->execute
 	or die "Can't execute the query $sql\n error: $sth->errstr\n";
     
     return 0;
