@@ -15,6 +15,9 @@ echo ""
 echo /work/clas/disk2
 df /work/clas/disk2
 echo ""
+echo /work/clas/disk3
+df /work/clas/disk3
+echo ""
 echo /work/clas/gsim
 df /work/clas/gsim
 echo ""
