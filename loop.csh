@@ -4,6 +4,7 @@ echo loop time is $time seconds
 shift
 echo command is $*
 start:
+    date
     $*
     sleep $time
 goto start
