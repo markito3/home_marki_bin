@@ -3,8 +3,8 @@
 $pattern = $ARGV[0]; # pattern to search for
 $file = $ARGV[1]; # file to search in
 #print "$pattern $file\n";
-$lenbuf = 9; # number of lines to print
-$indmatinc = 4; # number of line with match, c. f. 1
+$lenbuf = 20; # number of lines to print
+$indmatinc = 10; # number of line with match, c. f. 1
 
 for ($i=0; $i < $lenbuf; $i++) { # init buffer
     $linebuf[$i] = "beginning of file\n"
@@ -22,8 +22,11 @@ while ($more) { # go
     }
     #print "line = $line";
     #print "ind = $ind\n";
-# check for "From " line. If this is one, save it for printing later
-    if ($line =~ /^From /) {$line_from = $line;}
+# check for "From " line. If this is one, save it in a buffer
+    if ($line =~ /^From /) {$line_from_buffer = $line;}
+# check new line for match. If there is one, promote from line in buffer to
+# $line_from
+    if ($line =~ /$pattern/i) {$line_from = $line_from_buffer;}
 # put line in buffer at current buffer index
     $linebuf[$ind] = $line;
     #print "linebuf[$ind] = $linebuf[$ind]";
@@ -44,7 +47,7 @@ while ($more) { # go
 	    #print "i = $i, indprt = $indprt\n";
 	    print $linebuf[$indprt];
 	}
-	print "-------------------------\n"; # print a separator
+	print "----------------------------------------\n"; # print a separator
     }
 # increment buffer pointer
     $ind++;
