@@ -1,6 +1,6 @@
 #!/usr/bin/env perl
 #
-# $Id: work_warn_db.pl,v 1.1 2001/10/12 21:36:05 marki Exp $
+# $Id: work_warn_db.pl,v 1.2 2001/10/23 21:43:30 marki Exp $
 ########################################################################
 
 use DBI;
@@ -36,15 +36,15 @@ foreach $ip (0 .. $#work_partition) {
 	$line = <DF>;
 	@field = split(/\s+/, $line);
     }   
-    $total = $field[1]; # kB
     $used = $field[2]; # kB
     $free = $field[3]; # kB
+    $total = $used + $free; # kB
     close(DF);
     $dt = 1000*($used - 0.65*$total); # delete target in bytes
     if ($dt < 0) {$dt = 0;}
     print "$work_partition[$ip] $total $used $free $dt\n";
     $partno = $ip + 1;
-    $sql = "SELECT size, atime FROM WorkFile WHERE partition = $partno AND atime > 6.0 ORDER BY atime DESC";
+    $sql = "SELECT size, atime FROM WorkFile WHERE partition = $partno AND atime > 5.0 ORDER BY atime DESC";
     DO_IT(\$sth);
     $sum = 0;
     while ($sum < $dt && (($size, $atime) = $sth->fetchrow_array)) {
@@ -63,7 +63,7 @@ foreach $ip (0 .. $#work_partition) {
 $partition_clause = "partition = 1 AND atime > $atime_cut[0]";
 for $ip (1 .. $#work_partition) {
     $partno = $ip + 1;
-    $partition_clause .= " OR partition = $partno AND atime > $atime_cut[$ip]"
+    $partition_clause .= " OR partition = $partno AND atime >= $atime_cut[$ip]"
 }
 $sql = "SELECT DISTINCT uid FROM WorkFile WHERE $partition_clause";
 #print "$sql\n";
@@ -74,12 +74,37 @@ while ($uid = $sth->fetchrow) {
     $sql = "SELECT DISTINCT partition, path FROM WorkFile WHERE uid = $uid AND ($partition_clause)";
     #print "$sql\n";
     DO_IT(\$sth_path);
+    @pathlist = ();
+    $np = 0;
     while (($partition, $path) = $sth_path->fetchrow_array) {
+	$pathlist[$np++] = "$work_partition[$partition - 1]$path";
 	print "$work_partition[$partition - 1]$path\n";
     }
+    SEND_MAIL();
 }
 
 exit 0;
+
+sub SEND_MAIL {
+    open (MAIL, "| mail marki\@jlab.org -s \"Your work disk files\"");
+    print MAIL "You have files on the work disk that may be deleted during"
+	. " the next two days.\nThey are in the following directories:\n\n";
+    foreach $ip (0 .. $#pathlist) {
+	print MAIL "  $pathlist[$ip]\n";
+    }
+    print MAIL "\n";
+    print MAIL "You can find our work disk policy described in the Offline FAQ at\n";
+    print MAIL "\n";
+    print MAIL "  http://clasweb.jlab.org/offline/offline_faq/\n";
+    print MAIL "\n";
+    print MAIL "You can find a summary of your (and everyone else's) work disk usage\n";
+    print MAIL "by going to\n";
+    print MAIL "\n";
+    print MAIL "  http://claspc2.jlab.org/~marki/doc/offline/resource_status.html\n";
+    print MAIL "\n";
+    print MAIL "and clicking on \"Auto-Managed Work Disk Usage\".\n";
+    close (MAIL);
+}
 
 sub DO_IT {    
 
