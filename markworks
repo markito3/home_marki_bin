@@ -4,89 +4,86 @@
 #
 # Now deletes empty directories - mcj - 10-4-99
 #
-$access_time_min[0] = $ARGV[0];
-$free_fraction[0] = $ARGV[1];
-$workdisk[0] = $ARGV[2];
-$iwd = 0;
-while ($workdisk[$iwd]) {
-    $disk = $workdisk[$iwd];
-    undef %file_array;
-    undef %size_array;
-    $size_sum = 0;
+$access_time_min = $ARGV[0];
+$free_fraction = $ARGV[1];
+$disk = $ARGV[2];
+undef %file_array;
+undef %size_array;
+$size_sum = 0;
 #
 # calculate target to delete
 #
-    open(DF, "df -k $disk |");
-    $line = <DF>;
-    $line = <DF>;
-    @field = split(/\s+/, $line);
-    $size_tot = $field[1];
-    $size_avail = $field[3];
-    $size_delete_target = 1000*($free_fraction[$iwd]*$size_tot - $size_avail);
+open(DF, "df -k $disk |");
+$line = <DF>;
+$line = <DF>;
+@field = split(/\s+/, $line);
+$size_tot = $field[1];
+$size_avail = $field[3];
+$size_delete_target = 1000*($free_fraction*$size_tot - $size_avail);
 #
 # survey the disk
 #
-    open(FIND, "find $disk |");
-    while ($file = <FIND>) {
-	chomp $file;
-	{
-	    if ( -f $file ) {
-		$access_time = -A $file;
-		if ($access_time > $access_time_min[$iwd]) {
-		    #print "$access_time $file\n";
+open(FIND, "find $disk |");
+while ($file = <FIND>) {
+    chomp $file;
+    {
+	if ( -f $file ) {
+	    $access_time = -A $file;
+	    if ($access_time > $access_time_min) {
+		#print "$access_time $file\n";
 #	      open(LS, "ls -l $file |");
 #	      $ls_output = <LS>;
 #	      @field = split(/\s+/, $ls_output);
 #	      $size = $field[4];
-		    $size = -s $file;
-		    #print "$size\n";
-		    $size_array{$file} = $size;
-		    $file_array{$access_time} .= $file . "\n";
+		$size = -s $file;
+		#print "$size\n";
+		$size_array{$file} = $size;
+		$file_array{$access_time} .= $file . "\n";
+	    }
+	} else {
+	    if ( -d $file ) {
+		lstat $file;
+		$mod_time = -M _;
+		if ($mod_time > $access_time_min) {
+		    rmdir $file;
+		    print "DIR : removing $file\n";
 		}
 	    } else {
-		if ( -d $file ) {
-		    lstat $file;
-		    $mod_time = -M _;
-		    if ($mod_time > $access_time_min[$iwd]) {
-			rmdir $file;
-			print "DIR : removing $file\n";
-		    }
-		} else {
-		    if ( -l $file ) {
-			$lacctime = (time - (lstat($file))[8])/60/60/24;
-			$lmodtime = (time - (lstat($file))[9])/60/60/24;
+		if ( -l $file ) {
+		    $lacctime = (time - (lstat($file))[8])/60/60/24;
+		    $lmodtime = (time - (lstat($file))[9])/60/60/24;
 #                $atime = -A $file;
 #                $validlink = -e readlink($file);
-			$isalink = -l $file;
-#print "LNK : examining $file $lacctime $access_time_min[$iwd]\n";
-			if ($lacctime > $access_time_min[$iwd]) {
-			    unlink $file;
-			    print "LNK : removing $file\n";
-			}
+		    $isalink = -l $file;
+#print "LNK : examining $file $lacctime $access_time_min\n";
+		    if ($lacctime > $access_time_min) {
+			unlink $file;
+			print "LNK : removing $file\n";
 		    }
 		}
 	    }
 	}
     }
+}
 #
 # loop over the files, oldest first, listing them until target reached
 #
-  fileloop: foreach $access_time (reverse sort numerically keys(%file_array)) {
-      last fileloop if $size_sum >= $size_delete_target;
-      #print "access_time = $access_time\n";
-      #print "file = $file_array{$access_time}\n";
-      @files = split(/\n/, $file_array{$access_time});
-      foreach $file (@files) {
-	  $size = $size_array{$file};
-	  $size_sum += $size;
-	  print "$file $access_time $size $size_sum $size_delete_target\n";
-	  unlink($file);
-	  #print "$file\n";
-	  last fileloop if $size_sum >= $size_delete_target;
-      }
-  }
-    $iwd++;
-}
+ fileloop: foreach $access_time (reverse sort numerically keys(%file_array)) {
+     last fileloop if $size_sum >= $size_delete_target;
+     #print "access_time = $access_time\n";
+     #print "file = $file_array{$access_time}\n";
+     @files = split(/\n/, $file_array{$access_time});
+     foreach $file (@files) {
+	 $size = $size_array{$file};
+	 $size_sum += $size;
+	 print "$file $access_time $size $size_sum $size_delete_target\n";
+	 unlink($file);
+	 #print "$file\n";
+	 last fileloop if $size_sum >= $size_delete_target;
+     }
+ }
 exit 0;
 
 sub numerically {$a <=> $b;}
+#
+# end of perl script
