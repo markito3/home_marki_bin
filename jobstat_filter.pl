@@ -1,8 +1,5 @@
 #!/usr/bin/env perl
-# $Id: jobstat_filter.pl,v 1.4 2001/10/02 13:43:41 marki Exp $
-print "Columns are: job_no jobname user project status queue submit_time"
-    . " start_time node cpu_time.\n";
-print "If job pending, dependency condition follows submit_time.\n";
+# $Id: jobstat_filter.pl,v 1.5 2001/10/02 15:02:51 marki Exp $
 while (<>) {
     if (/^Job /) {
 	print "$job $jobname $user $project $status $queue $submit $start ",
