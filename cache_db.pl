@@ -3,14 +3,14 @@
 # Surveys the cache disk. If the sum of sizes of files marked for
 # early deletion is not large enough, finds directories that are over
 # quota and marks files for early deletion. Starts with the files that
-# are oldest by access time. Stops when the total size of the unmarked
+# are newest by access time. Stops when the total size of the unmarked
 # files is below quota.
 #
 # Uses a MySQL database to manage the data. Starts by creating a
 # database table of all files on the disk, storing their partition,
 # path, file name, size and access age.
 #
-# $Id: cache_db.pl,v 1.9 2000/07/12 12:30:45 marki Exp $
+# $Id: cache_db.pl,v 1.10 2000/07/12 13:49:48 marki Exp $
 ########################################################################
 
 use DBI;
@@ -149,7 +149,7 @@ if ($size_marked < $size_marked_min) {
 	    print "$path_over over by $amt_over_gb GB\n";
 	    $sql = "SELECT partition, name, size from CacheFile"
 		. " where path=\"$path_over\" and atime < $atime_marked"
-		    . " ORDER BY atime DESC"; &DO_IT();
+		    . " ORDER BY atime"; &DO_IT();
 	    $size_sum_delete = 0;
 	    while ((@row_ary = $sth->fetchrow_array)
 		   && $size_sum_delete < $amount_over{$path_over}) {
