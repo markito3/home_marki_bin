@@ -5,7 +5,7 @@ $icd = 0;
 $access_time_max[0] = 0;
 $access_time_max[1] = 0;
 while ($workdisk[$icd]) {
-    open(FIND, "find $workdisk[$icd] -size +1000k -type f |");
+    open(FIND, "find $workdisk[$icd] -type f |");
     while ($file = <FIND>) {
 	chop $file;
 	$access_time = -A $file;
