@@ -1,5 +1,11 @@
 #!/bin/tcsh
 echo ""
+echo /w/cache301
+df /w/cache301
+echo ""
+echo /w/cache402
+df /w/cache402
+echo ""
 echo /w/cache501
 df /w/cache501
 echo ""
