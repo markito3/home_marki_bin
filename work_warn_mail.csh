@@ -8,11 +8,15 @@ next 48 hours.
 You can locate the files using the "-atime" option of the UNIX "find"
 command. For example:
 
-  find /work/clas/disk1/ -user marki -atime +4
+  find /work/clas/disk1/. -user marki -atime +4
 
 or
 
-  find /work/clas/disk2/ -user marki -atime +4
+  find /work/clas/disk2/. -user marki -atime +4
+
+or
+
+  find /work/clas/disk3/. -user marki -atime +4
 
 where the +4 means more than 4+1 = 5 days. 
 
