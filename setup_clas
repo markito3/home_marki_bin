@@ -1,4 +1,0 @@
-#!/bin/csh
-setenv CVSROOT /apps/clas/u1/clas_cvs
-id
-exit
