@@ -11,7 +11,7 @@
 # database table of all files on the disk, storing their partition,
 # path, file name, size and access age.
 #
-# $Id: cache_db.pl,v 1.27 2001/02/13 16:00:11 marki Exp $
+# $Id: cache_db.pl,v 1.28 2001/03/29 13:21:56 marki Exp $
 ########################################################################
 
 use DBI;
@@ -19,7 +19,7 @@ use DBI;
 $atime_marked = 100; # age cut: files older than this are considered
                      #          marked for deletion
 
-$size_marked_min = 20e9; # in bytes, size of marked files less than
+$size_marked_min = 1e9; # in bytes, size of marked files less than
                          # this triggers quota checking
 
 $atime_stable = 5.0/24.0/60.0; # age in days before file considered for
@@ -42,7 +42,7 @@ $dbh = DBI->connect("DBI:mysql:cache:$hostname", $user, $password);
 if (defined $dbh) {
     #print "Connection successful: handle: $dbh\n";
 } else {
-    die "Could not make database connect...yuz got problems...\n";
+    die "Could not connect to database. Exiting.\n";
 }
 
 # construct the SQL query to drop the pre-existing version of the database
@@ -127,10 +127,10 @@ if ($size_marked < $size_marked_min) {
 
 # set quota based on current latency
 
-    if ($latency < 4.0) {
-	$quota = 150e9; # in bytes
+    if ($latency < 3.0) {
+	$quota = 200e9; # in bytes
     } elsif ($latency < 7.0) {
-	$quota = 300e9;
+	$quota = 400e9;
     } else {
 	$quota = 10e12;
     }
