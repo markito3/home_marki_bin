@@ -1,6 +1,6 @@
 #!/usr/bin/env perl
 #
-# $Id: work_warn_db.pl,v 1.10 2001/11/14 14:42:55 marki Exp $
+# $Id: work_warn_db.pl,v 1.11 2001/11/15 14:24:16 marki Exp $
 ########################################################################
 
 use DBI;
@@ -9,7 +9,7 @@ use DBI;
 eval "\$$1=\$2" while $ARGV[0] =~ /^(\w+)=(.*)/ && shift; # see camel book
 
 # initialize constant
-$used_fraction_target = 0.72;
+$used_fraction_target = 0.70;
 $access_age_cut = 5.0; # days
 $atime_big = 365*100;
 
