@@ -7,6 +7,6 @@ tempfile=/tmp/work_idle.tmp
 rm -f $tempfile
 date > $tempfile
 echo >> $tempfile
-work_idle.csh >> $tempfile
+( work_idle.csh >> $tempfile ) >& /dev/null
 mv $tempfile $report_file
 exit
