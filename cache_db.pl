@@ -14,7 +14,7 @@
 # set markfiles=<non-zero> on command line to actually mark files for early
 # deletion.
 #
-# $Id: cache_db.pl,v 1.38 2002/06/20 15:35:48 marki Exp $
+# $Id: cache_db.pl,v 1.39 2002/06/20 21:12:13 marki Exp $
 ########################################################################
 
 use DBI;
@@ -188,13 +188,19 @@ if ($size_marked <= $size_marked_min) {
 		#print "ip=$ip name=$name size=$size atime=$atime ", "size_sum_delete=$size_sum_delete\n";
 		if ($atime > $atime_stable) {
 		    $size_sum_delete += $size;
-		    $command = "jcache -d $path_over/$name";
-		    if ($markfiles) {
-			print LOG "marking $path_over/$name, atime=$atime\n";
-			system($command);
+		    # check to see if file exists
+		    if (-e "$path_over/$name") {
+			if ($markfiles) {
+			    print LOG "marking $path_over/$name, "
+				. "atime=$atime\n";
+			    $command = "jcache -d $path_over/$name";
+			    system($command);
+			} else {
+			    print LOG "not marking $path_over/$name,"
+				. " atime=$atime\n";
+			}
 		    } else {
-			print LOG "not marking $path_over/$name,"
-			    . " atime=$atime\n";
+			print LOG "already deleted: $path_over/$name\n";
 		    }
 		}
 	    }
