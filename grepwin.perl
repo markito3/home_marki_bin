@@ -35,8 +35,8 @@ while ($more) { # go
 	#print "match found\n";
 	for ($i = 0; $i < $lenbuf; $i++) { # print the buffer
 	    $indprt = $i + $indmat - ($indmatinc - 1); # set printing index
-	    if ($indprt < 0) {
-		$indprt += $lenbuf; # wrap around
+	    if ($indprt >= $lenbuf) {
+		$indprt -= $lenbuf; # wrap around
 	    }
 	    #print "i = $i, indprt = $indprt\n";
 	    print $linebuf[$indprt];
