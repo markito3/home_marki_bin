@@ -1,9 +1,9 @@
 #!/bin/tcsh -f
 mail $1@jlab.org -s "Old files on the CLAS work disks" <<+
-You have files on the CLAS work disks that have not been accessed in
-more than five days. As a courtesy to others, please delete them if
-you are not using them. They may be deleted automatically during the
-next 48 hours.
+You have files on the CLAS work disks that apparently have not been
+accessed in more than five days. As a courtesy to others, please
+delete them if you are not using them. They may be deleted
+automatically during the next 48 hours.
 
 You can find our work disk policy described in the Offline FAQ at
 
