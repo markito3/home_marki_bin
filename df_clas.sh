@@ -1,16 +1,10 @@
-#!/bin/tcsh
+#!/bin/sh
 echo ""
-echo /w/cache301
-df /w/cache301
+echo /w/cache101
+df /w/cache101
 echo ""
-echo /w/cache402
-df /w/cache402
-echo ""
-echo /w/cache501
-df /w/cache501
-echo ""
-echo /w/cache601
-df /w/cache601
+echo /w/cache201
+df /w/cache201
 echo ""
 echo /work/clas/calib
 df /work/clas/calib
