@@ -1,6 +1,6 @@
 #!/usr/bin/env perl
 #
-# $Id: work_db.pl,v 1.5 2001/10/24 14:09:34 marki Exp $
+# $Id: work_db.pl,v 1.6 2002/05/02 12:46:10 marki Exp $
 ########################################################################
 
 use DBI;
@@ -120,7 +120,7 @@ sub MAKE_DB {
 	    #print "uid = $uid\n";
 	    
 	    $sql = "INSERT INTO WorkFile (partition, path, name, size, atime, uid)"
-		. " VALUES ($iw, \"$path\", \'$file_no_path\', \"$size\","
+		. " VALUES ($iw, \"$path\", \"$file_no_path\", \"$size\","
 		    . " \"$atime\", \"$uid\")";
 	    &DO_IT();
 	}
