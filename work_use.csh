@@ -1,15 +1,30 @@
 #! /bin/tcsh -f
+#
+# Get info for each disk
+#
 work_use_one.csh 1
 work_use_one.csh 2
 work_use_one.csh 3
 work_use_one.csh 4
 work_use_one.csh 5
+#
+# cat the results together
+#
 cd $SCR
 cat work_use_1.tmp work_use_2.tmp work_use_3.tmp work_use_4.tmp \
     work_use_5.tmp > work_use_tot.tmp
+#
+# process for pan disk summary
+#
 work_use_sum.csh tot
-'rm' work_report.tmp
+#
+# make final report file
+#
+rm -f work_report.tmp
 echo "Work Disk Usage Summary" > work_report.tmp
+date >> work_report.tmp # put in the date
+echo "" >> work_report.tmp
+df /work/clas/disk* >> work_report.tmp # put in the df disk usage info
 echo "" >> work_report.tmp
 echo "Sum of all five work disks:" >> work_report.tmp
 cat work_summary_tot.tmp >> work_report.tmp
