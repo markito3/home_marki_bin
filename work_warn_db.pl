@@ -1,12 +1,15 @@
 #!/usr/bin/env perl
 #
-# $Id: work_warn_db.pl,v 1.4 2001/10/24 13:59:25 marki Exp $
+# $Id: work_warn_db.pl,v 1.5 2001/10/29 16:50:06 marki Exp $
 ########################################################################
 
 use DBI;
 
 # get command line parameters
 eval "\$$1=\$2" while $ARGV[0] =~ /^(\w+)=(.*)/ && shift; # see camel book
+
+# initialize constant
+$used_fraction_target = 0.70;
 
 # list of work partitions to consider
 $work_partition[0] = "/work/clas/disk1";
@@ -40,7 +43,7 @@ foreach $ip (0 .. $#work_partition) {
     $free = $field[3]; # kB
     $total = $used + $free; # kB
     close(DF);
-    $dt = 1000*($used - 0.65*$total); # delete target in bytes
+    $dt = 1000*($used - $used_fraction_target*$total); # delete target in bytes
     if ($dt < 0) {$dt = 0;}
     print "$work_partition[$ip] $total $used $free $dt\n";
     $partno = $ip + 1;
