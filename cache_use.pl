@@ -1,6 +1,6 @@
 #!/usr/local/bin/perl
 #
-# $Id: cache_use.pl,v 1.5 2000/09/28 14:18:01 marki Exp $
+# $Id: cache_use.pl,v 1.6 2001/03/27 14:22:50 marki Exp $
 ########################################################################
 
 use DBI;
@@ -26,11 +26,6 @@ if (defined $dbh) {
 } else {
     die "Could not make database connect...yuz got problems...\n";
 }
-
-# find the summed size of files marked for early deletion
-
-$sql = "SELECT SUM(size) from CacheFile where atime > $atime_marked"; &DO_IT();
-$size_marked = $sth->fetchrow;
 
 #   make list of paths (directories) to consider
 
@@ -58,8 +53,19 @@ foreach $path_target (@path_active) {
 
 print "Sizes do not include files marked for early deletion.\n";
 
+# find the summed size of files marked for early deletion
+
+$sql = "SELECT SUM(size) from CacheFile where atime > $atime_marked"; &DO_IT();
+$size_marked = $sth->fetchrow;
 $size_marked_gb = $size_marked/1e9;
 print "Total marked for early deletion: $size_marked_gb GB\n";
+
+# find age of oldest file not marked for deletion
+
+$sql = "SELECT MAX(atime) from CacheFile where atime < $atime_marked";
+&DO_IT();
+$atime_oldest = $sth->fetchrow;
+print "Age of oldest (unmarked) file: $atime_oldest days\n";
 
 exit;
 
