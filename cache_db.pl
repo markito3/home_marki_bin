@@ -14,7 +14,7 @@
 # set markfiles=<non-zero> on command line to actually mark files for early
 # deletion.
 #
-# $Id: cache_db.pl,v 1.37 2002/05/05 15:34:53 marki Exp $
+# $Id: cache_db.pl,v 1.38 2002/06/20 15:35:48 marki Exp $
 ########################################################################
 
 use DBI;
@@ -32,12 +32,10 @@ $atime_stable = 5.0/24.0/60.0; # age in days before file considered for
                                    # deletion
 
 # list of cache partitions to consider
-$cache_partition[0] = "/w/cache702";
-$cache_partition[1] = "/w/cache703";
-$cache_partition[2] = "/w/cache802";
-$cache_partition[3] = "/w/cache803";
-$cache_partition[4] = "/w/cache1301";
-$cache_partition[5] = "/w/cache1302";
+$cache_partition[0] = "/w/cache802";
+$cache_partition[1] = "/w/cache803";
+$cache_partition[2] = "/w/cache1301";
+$cache_partition[3] = "/w/cache1302";
 
 # connect to MySQL database on localhost
 
