@@ -1,7 +1,6 @@
 #! /bin/sh
 webdir=/home/marki/public_html/clas
-#report_file=$webdir/farmqueues.txt
-report_file=fq.tmp
+report_file=$webdir/farmqueues.txt
 rm -f $report_file
 date > $report_file
 /site/bin/farmqueues >> $report_file
