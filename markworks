@@ -1,6 +1,6 @@
 #!/apps/perl/bin/perl
 #
-# $Id: markworks,v 1.12 2004/12/15 14:12:07 marki Exp $
+# $Id: markworks,v 1.13 2004/12/15 18:25:33 marki Exp $
 #
 # Takes command line arguments rather than hardcoded parameters. - MCJ 3-17-00
 #
@@ -19,9 +19,19 @@ open(DF, "df -k $disk |");
 $line = <DF>;
 $line = <DF>;
 @field = split(/\s+/, $line);
+if ($#field == 0) {
+    $line = <DF>;
+    @field = split(/\s+/, $line);
+}
 $size_tot = $field[1];
+$size_tot_gb = $size_tot/1000000;
 $size_avail = $field[3];
+$size_avail_gb = $size_avail/1000000;
 $size_delete_target = 1000*($free_fraction*$size_tot - $size_avail);
+$size_delete_target_gb = $size_delete_target/1000000000;
+print "size_tot = $size_tot_gb GB\n";
+print "size_avail = $size_avail_gb GB\n";
+print "size_delete_target = $size_delete_target_gb GB\n";
 #
 # survey the disk
 #
@@ -60,6 +70,7 @@ while ($file = <FIND>) {
 	if ($change_time > $access_time_min) {
 	    # check whether it is empty and delete it if it is.
 	    #print "directory: $file\n";
+	    $file =~ s/ /\\ /g;
 	    open(DIRLIST, "ls -a $file | wc -l |");
 	    $nfiles = <DIRLIST>;
 	    chop $nfiles;
@@ -84,7 +95,7 @@ while ($file = <FIND>) {
      foreach $file (@files) {
 	 $size = $size_array{$file};
 	 $size_sum += $size;
-	 print "$file $access_time $size $size_sum $size_delete_target\n";
+	 printf("%s\t%f days\t%g MB\n", $file, $access_time, $size/1000000);
 	 unlink($file) or die "can't unlink $file";
 	 last fileloop if $size_sum >= $size_delete_target;
      }
