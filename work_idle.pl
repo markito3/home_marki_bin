@@ -1,6 +1,6 @@
 #!/usr/local/bin/perl
 $disk = $ARGV[0];
-open(INPUT, "find $disk/ -type f -atime +13 | file_sum.pl |");
+open(INPUT, "find $disk/ -type f -atime +6 | file_sum.pl |");
 $line = <INPUT>;
 $stale = $line/1.e9;
 close(INPUT);
@@ -8,6 +8,10 @@ open(INPUT, "df $disk |");
 $line = <INPUT>;
 $line = <INPUT>;
 @field = split(/\s+/, $line);
+if (!$#field) {
+    $line = <INPUT>;
+    @field = split(/\s+/, $line);
+}
 $size = $field[1]/1.e6;
 $used = $field[2]/1.e6;
 $free = $field[3]/1.e6;
