@@ -1,6 +1,6 @@
 #!/usr/bin/env perl
 #
-# $Id: work_warn_db.pl,v 1.3 2001/10/24 13:20:34 marki Exp $
+# $Id: work_warn_db.pl,v 1.4 2001/10/24 13:59:25 marki Exp $
 ########################################################################
 
 use DBI;
@@ -80,7 +80,7 @@ while ($uid = $sth->fetchrow) {
 	$pathlist[$np++] = "$work_partition[$partition - 1]$path";
 	print "$work_partition[$partition - 1]$path\n";
     }
-    SEND_MAIL();
+    if ($mail) {SEND_MAIL();}
 }
 
 exit 0;
