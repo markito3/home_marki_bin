@@ -1,4 +1,4 @@
-#!/usr/local/bin/perl
+#!/usr/bin/env perl
 $program_name = $ARGV[0];
 $delete_no_prompt = $ARGV[1];
 if (!$program_name) {print "nothing to look for\n"; exit 1;}
