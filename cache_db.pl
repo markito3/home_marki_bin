@@ -10,7 +10,7 @@
 # database table of all files on the disk, storing their partition,
 # path, file name, size and access age.
 #
-# $Id: cache_db.pl,v 1.11 2000/07/12 18:54:50 marki Exp $
+# $Id: cache_db.pl,v 1.12 2000/07/17 16:03:06 marki Exp $
 ########################################################################
 
 use DBI;
@@ -147,7 +147,7 @@ if ($size_marked < $size_marked_min) {
 	if ($amount_over{$path_over}) {
 	    $amt_over_gb = $amount_over{$path_over}/1.0e9;
 	    print "$path_over over by $amt_over_gb GB\n";
-	    $sql = "SELECT partition, name, size from CacheFile"
+	    $sql = "SELECT partition, name, size, atime from CacheFile"
 		. " where path=\"$path_over\" and atime < $atime_marked"
 		    . " ORDER BY atime"; &DO_IT();
 	    $size_sum_delete = 0;
@@ -156,11 +156,12 @@ if ($size_marked < $size_marked_min) {
 		$ip = $row_ary[0];
 		$name = @row_ary[1];
 		$size = @row_ary[2];
+		$atime = @row_ary[3];
 		$size_sum_delete += $size;
 		#print "ip=$ip name=$name size=$size size_sum_delete=$size_sum_delete\n";
 		$command = "jcache -d /cache$path_over/$name";
 		# for debugging # $command = "ls -l /cache$path_over/$name";
-		print "executing \"$command\"\n";
+		print "marking /cache$path_over/$name, atime=$atime\n";
 		system($command);
 	    }
 	}
