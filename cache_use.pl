@@ -1,6 +1,6 @@
 #!/usr/local/bin/perl
 #
-# $Id: cache_use.pl,v 1.4 2000/07/21 20:45:22 marki Exp $
+# $Id: cache_use.pl,v 1.5 2000/09/28 14:18:01 marki Exp $
 ########################################################################
 
 use DBI;
@@ -12,11 +12,6 @@ $atime_marked = 100; # age cut: files older than this are considered
 
 $size_marked_min = 20e9; # in bytes, size of marked files less than
                          # this triggers quota checking
-
-# list of cache partitions to consider
-$cache_partition[0] = "/w/cache101";
-$cache_partition[1] = "/w/cache201";
-$cache_partition[2] = "/w/cache401";
 
 # connect to MySQL database on localhost
 
