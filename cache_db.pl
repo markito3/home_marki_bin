@@ -1,11 +1,23 @@
 #!/usr/local/bin/perl
 #
-# $Id: cache_db.pl,v 1.3 2000/06/22 13:55:31 marki Exp $
+# Surveys the cache disk. If no files are marked for early deletion,
+# finds directories that are over quota and mark some files for early
+# deletion. Starts with the files that are oldest by access
+# time. Stops when the total size of the unmarked files is below
+# quota.
+#
+# Uses a MySQL database to manage the data. Starts by creating a
+# database table of all files on the disk, storing their partition,
+# path, file name, size and access age.
+#
+# $Id: cache_db.pl,v 1.4 2000/06/22 15:00:55 marki Exp $
 ########################################################################
 
 use DBI;
 
-$quota = 150e9;
+$quota = 150e9; # in bytes
+
+# list of cache partitions to consider
 $cache_partition[0] = "/w/cache101";
 $cache_partition[1] = "/w/cache201";
 
@@ -23,16 +35,15 @@ if (defined $dbh) {
     die "Could not make database connect...yuz got problems...\n";
 }
 
-
-# construct the "calib" database information
-
-# construct the SQL query
+# construct the SQL query to drop the pre-existing version of the database
 
 $sql  = "DROP TABLE IF EXISTS CacheFile";
 
 # prepare and execute the query 
 
 &DO_IT();
+
+# create the cache file table
 
 $sql  = "CREATE TABLE CacheFile (fileId int auto_increment PRIMARY KEY";
 $sql .= ", partition int";
@@ -43,6 +54,8 @@ $sql .= ", atime float(10,5)";
 $sql .= ")";
 
 &DO_IT();
+
+# loop over cache partitions, populating the database table
 
 $ic = 0;
 
@@ -82,19 +95,27 @@ foreach $cache (@cache_partition) {
     
 }
 
-$sql = "SELECT DISTINCT path from CacheFile";
-&DO_IT();
-
-$npath = 0;
-while (@row_ary = $sth->fetchrow_array) {
-    $path_active[$npath++] = $row_ary[0];
-}
+# find the oldest file on the cache
 
 $sql = "SELECT MAX(atime) from CacheFile"; &DO_IT();
 $atime_max = $sth->fetchrow;
 print "atime_max=$atime_max\n";
 
+# if no file is marked as very old, check quotas
+
 if ($atime_max < 30) {
+
+#   make list of paths (directories) to consider
+
+    $sql = "SELECT DISTINCT path from CacheFile";
+    &DO_IT();
+
+    $npath = 0;
+    while (@row_ary = $sth->fetchrow_array) {
+	$path_active[$npath++] = $row_ary[0];
+    }
+
+#   find the disk usage of each path checking if it is over quota
 
     foreach $path_target (@path_active) {
 	$sql = "SELECT SUM(size) from CacheFile"
@@ -107,6 +128,9 @@ if ($atime_max < 30) {
 	    $amount_over{$path_target} = $quota_diff;
 	}
     }
+
+#   loop over paths again. start deleting files from those over quota.
+#   stop when over-quota amount is reached.
     
     foreach $path_over (@path_active) {
 	if ($amount_over{$path_over}) {
