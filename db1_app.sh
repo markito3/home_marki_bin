@@ -1,7 +1,7 @@
 #!/bin/sh
 app_name=$1
 xterm \
-     -title "ETR" -geo 120x40 -fg black -bg lightblue -cr red \
+     -title "$app_name" -geo 120x40 -fg black -bg lightblue -cr red \
 	-fn 7x13bold -fb 7x13bold \
 	-xrm \
 	'XTerm*VT100.translations: #override \n \
