@@ -1,5 +1,5 @@
 #!/usr/bin/env perl
-# $Id: jobstat_filter.pl,v 1.5 2001/10/02 15:02:51 marki Exp $
+# $Id: jobstat_filter.pl,v 1.6 2002/02/06 20:10:13 marki Exp $
 while (<>) {
     if (/^Job /) {
 	print "$job $jobname $user $project $status $queue $submit $start ",
@@ -46,12 +46,12 @@ exit 0;
 sub PARSE {
     local ($line, $field) = @_;
     #print "PARSE: line = ${line}field = $field\n";
-    @ary0 = split(/$field </, $line);
+    @ary0 = split(/$field\s+</, $line);
     #print "ary0[1] = $ary0[1]\n";
     @ary1 = split(/>/, $ary0[1]);
     #print "ary1[0] = $ary1[0]\n";
     $token =  $ary1[0];
-    #print "token = $token\n";
+    #print "field = /$field/, token = /$token/\n";
     return $token;
 }
 # end of perl script
