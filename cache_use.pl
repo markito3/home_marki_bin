@@ -1,17 +1,14 @@
 #!/usr/local/bin/perl
 #
-# $Id: cache_use.pl,v 1.6 2001/03/27 14:22:50 marki Exp $
+# $Id: cache_use.pl,v 1.7 2001/03/29 16:46:38 marki Exp $
 ########################################################################
 
 use DBI;
 
-$quota = 150e9; # in bytes
+$quota = 200e9; # in bytes
 
 $atime_marked = 100; # age cut: files older than this are considered
                      #          marked for deletion
-
-$size_marked_min = 20e9; # in bytes, size of marked files less than
-                         # this triggers quota checking
 
 # connect to MySQL database on localhost
 
@@ -81,13 +78,14 @@ sub DO_IT {
 }
 
 format STDOUT_TOP =
- Size    Amount
- (GB)     Over   Directory
-------- -------- ---------
+           Amount
+ Size       Over
+ (GB)   3-day quota Directory
+------- ----------- ---------
 .
 
 
 format =
-@##.### @###.### @<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
+@##.### @###.###    @<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 $size_sum_gb, $quota_diff_gb, $path_target
 .
