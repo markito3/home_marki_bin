@@ -1,6 +1,6 @@
 #!/usr/bin/env perl
 #
-# $Id: work_warn_db.pl,v 1.2 2001/10/23 21:43:30 marki Exp $
+# $Id: work_warn_db.pl,v 1.3 2001/10/24 13:20:34 marki Exp $
 ########################################################################
 
 use DBI;
@@ -86,7 +86,7 @@ while ($uid = $sth->fetchrow) {
 exit 0;
 
 sub SEND_MAIL {
-    open (MAIL, "| mail marki\@jlab.org -s \"Your work disk files\"");
+    open (MAIL, "| mail -s \"Your work disk files\" $user\@jlab.org marki\@jlab.org");
     print MAIL "You have files on the work disk that may be deleted during"
 	. " the next two days.\nThey are in the following directories:\n\n";
     foreach $ip (0 .. $#pathlist) {
