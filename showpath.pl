@@ -1,4 +1,4 @@
-#!/usr/local/bin/perl
+#!/usr/bin/env perl
 $line=$ENV{'PATH'};
 #print "$line\n";
 @field = split(/:/,$line);
