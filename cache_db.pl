@@ -11,7 +11,7 @@
 # database table of all files on the disk, storing their partition,
 # path, file name, size and access age.
 #
-# $Id: cache_db.pl,v 1.18 2000/08/18 18:14:36 marki Exp $
+# $Id: cache_db.pl,v 1.19 2000/08/21 15:19:39 marki Exp $
 ########################################################################
 
 use DBI;
@@ -120,7 +120,7 @@ $sql = "SELECT MAX(atime) from CacheFile where atime < $atime_marked";
 &DO_IT();
 $latency = $sth->fetchrow;
 
-print "size_marked=$size_marked_gb GB, latency=$latency days\n";
+#print "size_marked=$size_marked_gb GB, latency=$latency days\n";
 
 # if not enough space is marked for deletion and latency low, check quotas
 
