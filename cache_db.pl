@@ -1,8 +1,11 @@
 #!/usr/local/bin/perl
+#
+# $Id: cache_db.pl,v 1.2 2000/06/22 12:51:26 marki Exp $
+########################################################################
 
 use DBI;
 
-$quota = 100e9;
+$quota = 150e9;
 $cache_partition[0] = "/w/cache101";
 $cache_partition[1] = "/w/cache201";
 
@@ -103,12 +106,27 @@ foreach $path_target (@path_active) {
 foreach $path_over (@path_active) {
     if ($amount_over{$path_over}) {
 	print "$path_over $amount_over{$path_over}\n";
+	$sql = "SELECT partition, name, size from CacheFile"
+	    . " where path=\"$path_over\" and atime < 30"
+		. " ORDER BY atime DESC"; &DO_IT();
+	$size_sum_delete = 0;
+	while ((@row_ary = $sth->fetchrow_array)
+	       && $size_sum_delete < $amount_over{$path_over}) {
+	    $ip = $row_ary[0];
+	    $name = @row_ary[1];
+	    $size = @row_ary[2];
+	    $size_sum_delete += $size;
+	    #print "ip=$ip name=$name size=$size size_sum_delete=$size_sum_delete\n";
+	    $command = "jcache -d /cache$path_over/$name";
+	    print "command=$command\n";
+	}
     }
 }
 
 exit;
 
 sub DO_IT {    
+
     $sth = $dbh->prepare($sql)
 	or die "Can't prepare $sql: $dbh->errstr\n";
     
@@ -117,4 +135,3 @@ sub DO_IT {
     
     return 0;
 }
-
