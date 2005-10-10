@@ -1,6 +1,6 @@
 #!/apps/perl/bin/perl
 #
-# $Id: markworks,v 1.14 2004/12/22 20:36:47 marki Exp $
+# $Id: markworks,v 1.15 2005/10/10 21:43:52 marki Exp $
 #
 # Takes command line arguments rather than hardcoded parameters. - MCJ 3-17-00
 #
@@ -9,9 +9,20 @@
 $access_time_min = $ARGV[0];
 $free_fraction = $ARGV[1];
 $disk = $ARGV[2];
+$fstype = $ARGV[3];
+if ($fstype eq 'panfs') {
+    $panfs = 1;
+} elsif ($fstype eq 'nfs') {
+    $panfs = 0;
+} else {
+    die "invalid file system type";
+}
 undef %file_array;
 undef %size_array;
 $size_sum = 0;
+$current_utime = time();
+print "current_utime = $current_utime\n";
+$seconds_per_day = 60*60*24;
 #
 # calculate target to delete
 #
@@ -51,7 +62,13 @@ while ($file = <FIND>) {
     } else {
 	if (-f $file) {
 	    $regular = 1; # it's a regular file
-	    $access_time = -A $file;
+	    if ($panfs) {
+		$pan_atime = `pan_atime -f %s $file`;
+		split(/\s+/, $pan_atime);
+		$access_time = ($current_utime - $_[5])/$seconds_per_day; 
+	    } else {
+		$access_time = -A $file;
+	    }
 	    $size = -s $file;
 	} elsif (-d $file) {
 	    $directory = 1; # it's a directory
@@ -59,10 +76,11 @@ while ($file = <FIND>) {
 	}
     }
     #printf "$file, $link, $regular, $directory, $access_time, $size, $change_time\n";
-    if ($regular || $link) {
+    #if ($regular || $link) {
+    if ($regular) { # ignore links for now, i. e., let them be
 	if ($access_time > $access_time_min) {
 	    # add it to the deletion candidates
-	    #print "$access_time $file\n";
+	    #print "adding to list: $access_time $file\n";
 	    #print "$size\n";
 	    $size_array{$file} = $size;
 	    $file_array{$access_time} .= $file . "\n";
