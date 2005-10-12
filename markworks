@@ -1,6 +1,6 @@
 #!/apps/perl/bin/perl
 #
-# $Id: markworks,v 1.15 2005/10/10 21:43:52 marki Exp $
+# $Id: markworks,v 1.16 2005/10/12 20:29:00 marki Exp $
 #
 # Takes command line arguments rather than hardcoded parameters. - MCJ 3-17-00
 #
@@ -10,12 +10,20 @@ $access_time_min = $ARGV[0];
 $free_fraction = $ARGV[1];
 $disk = $ARGV[2];
 $fstype = $ARGV[3];
+$delete_arg = $ARGV[4];
 if ($fstype eq 'panfs') {
     $panfs = 1;
 } elsif ($fstype eq 'nfs') {
     $panfs = 0;
 } else {
     die "invalid file system type";
+}
+if ($delete_arg eq 'delete') {
+    $delete = 1;
+} elsif ($delete_arg eq 'nodelete') {
+    $delete = 0;
+} else {
+    die "invalid delete argument";
 }
 undef %file_array;
 undef %size_array;
@@ -43,6 +51,10 @@ $size_delete_target_gb = $size_delete_target/1000000000;
 print "size_tot = $size_tot_gb GB\n";
 print "size_avail = $size_avail_gb GB\n";
 print "size_delete_target = $size_delete_target_gb GB\n";
+if ($size_delete_target <= 0) {
+    print "no deletion needed\n";
+    exit;
+}
 #
 # survey the disk
 #
@@ -62,12 +74,13 @@ while ($file = <FIND>) {
     } else {
 	if (-f $file) {
 	    $regular = 1; # it's a regular file
-	    if ($panfs) {
+	    $access_time = -A $file;
+	    # on panasas, if atime appears long, recalculate it with pan_atime
+	    # this may show that it was actually accessed more recently
+	    if (($access_time > $access_time_min) && $panfs) {
 		$pan_atime = `pan_atime -f %s $file`;
 		split(/\s+/, $pan_atime);
 		$access_time = ($current_utime - $_[5])/$seconds_per_day; 
-	    } else {
-		$access_time = -A $file;
 	    }
 	    $size = -s $file;
 	} elsif (-d $file) {
@@ -87,8 +100,10 @@ while ($file = <FIND>) {
 	}
     } elsif ($directory) {
 	if ($change_time > $access_time_min) {
-	    if (rmdir $file) {
-		print "removed empty directory $file\n";
+	    if ($delete) {
+		if (rmdir $file) {
+		    print "removed empty directory $file\n";
+		}
 	    }
 	}
 	close(DIRLIST);
@@ -106,7 +121,9 @@ while ($file = <FIND>) {
 	 $size = $size_array{$file};
 	 $size_sum += $size;
 	 printf("%s\t%f days\t%g MB\n", $file, $access_time, $size/1000000);
-	 unlink($file) or die "can't unlink $file";
+	 if ($delete) {
+	     unlink($file) or die "can't unlink $file";
+	 }
 	 last fileloop if $size_sum >= $size_delete_target;
      }
  }
