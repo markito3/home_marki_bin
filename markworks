@@ -1,6 +1,6 @@
 #!/apps/perl/bin/perl
 #
-# $Id: markworks,v 1.16 2005/10/12 20:29:00 marki Exp $
+# $Id: markworks,v 1.17 2005/10/17 21:04:14 marki Exp $
 #
 # Takes command line arguments rather than hardcoded parameters. - MCJ 3-17-00
 #
@@ -79,8 +79,12 @@ while ($file = <FIND>) {
 	    # this may show that it was actually accessed more recently
 	    if (($access_time > $access_time_min) && $panfs) {
 		$pan_atime = `pan_atime -f %s $file`;
+		#print "DEBUG: $pan_atime";
 		split(/\s+/, $pan_atime);
-		$access_time = ($current_utime - $_[5])/$seconds_per_day; 
+		$access_time = ($current_utime - $_[5])/$seconds_per_day;
+		# protect against pan_atime glitch, just keep the file if it
+                # appears older than 3 years
+		if ($access_time > 10000) {$access_time = 0;}
 	    }
 	    $size = -s $file;
 	} elsif (-d $file) {
