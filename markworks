@@ -1,6 +1,6 @@
 #!/apps/perl/bin/perl
 #
-# $Id: markworks,v 1.18 2005/10/19 12:31:53 marki Exp $
+# $Id: markworks,v 1.19 2005/10/20 12:11:56 marki Exp $
 #
 # Takes command line arguments rather than hardcoded parameters. - MCJ 3-17-00
 #
@@ -31,6 +31,10 @@ $size_sum = 0;
 $current_utime = time();
 print "current_utime = $current_utime\n";
 $seconds_per_day = 60*60*24;
+$pan_atime_command = "/usr/local/bin/pan_atime";
+if ($fstype eq 'panfs' && ! -f $pan_atime_command) {
+    die "error: pan_atime command not found, exiting";
+}
 #
 # calculate target to delete
 #
@@ -78,14 +82,14 @@ while ($file = <FIND>) {
 	    # on panasas, if atime appears long, recalculate it with pan_atime
 	    # this may show that it was actually accessed more recently
 	    if (($access_time > $access_time_min) && $panfs) {
-		$pan_atime = `pan_atime -f %s $file`;
+		$pan_atime = `$pan_atime_command -f %s $file`;
 		#print "DEBUG: $pan_atime";
 		split(/\s+/, $pan_atime);
 		$access_time = ($current_utime - $_[5])/$seconds_per_day;
 		# protect against pan_atime glitch, just keep the file if it
                 # appears older than 3 years
 		if ($access_time > 10000) {
-		    print "warning: $file has access time = $access_time, settint it to zero.\n";
+		    print "warning: $file has access time = $access_time, setting it to zero.\n";
 		    $access_time = 0;
 		}
 	    }
