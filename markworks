@@ -1,6 +1,6 @@
 #!/apps/perl/bin/perl
 #
-# $Id: markworks,v 1.21 2005/12/18 00:56:59 marki Exp $
+# $Id: markworks,v 1.22 2005/12/21 15:05:07 marki Exp $
 #
 # Takes command line arguments rather than hardcoded parameters. - MCJ 3-17-00
 #
@@ -85,6 +85,7 @@ while ($file = <FIND>) {
 		$file =~ s/\(/\\\(/g;
 		$file =~ s/\)/\\\)/g;
 		$file =~ s/ /\\ /g;
+		$file =~ s/\*/\\\*/g;
 		$pan_atime = `$pan_atime_command -f %s $file`;
 		#print "DEBUG: $pan_atime";
 		split(/\s+/, $pan_atime);
@@ -136,7 +137,10 @@ while ($file = <FIND>) {
 	 $size_sum += $size;
 	 printf("%s\t%f days\t%g MB\n", $file, $access_time, $size/1000000);
 	 if ($delete) {
-	     unlink($file) or die "can't unlink $file";
+	     $status_unlink = unlink($file);
+	     if ($status_unlink == 0) {
+		 print "warning: can't unlink $file\n";
+	     }
 	 }
 	 last fileloop if $size_sum >= $size_delete_target;
      }
