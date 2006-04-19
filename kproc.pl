@@ -27,7 +27,7 @@ while (<PS>) {
 	    $response = <STDIN>;
 	    chop $response;
 	    if ($response eq "y") {
-		print "killing process $proc_id\n";
+		print "==> killing process $proc_id\n";
 		system("kill -9 $proc_id");
 	    }
 	}
