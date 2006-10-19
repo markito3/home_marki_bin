@@ -1,4 +1,4 @@
-setenv G4WORKDIR ~/g4work
+setenv G4WORKDIR $SCR/g4work
 source /usr/local/geant4/geant4.8.1.p01/.config/bin/Linux-g++/env.csh
 setenv XERCESCROOT /usr/local/xerces/xerces-c-src_2_7_0
 if ($?LD_LIBRARY_PATH) then
