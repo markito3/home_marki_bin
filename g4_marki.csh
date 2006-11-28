@@ -1,6 +1,7 @@
 setenv G4WORKDIR $SCR/g4work
 source /usr/local/geant4/prod/.config/bin/Linux-g++/env.csh
 setenv XERCESCROOT /usr/local/xerces/xerces-c-src_2_7_0
+setenv EVIOROOT /usr/local/evio/prod
 if ($?LD_LIBRARY_PATH) then
     setenv LD_LIBRARY_PATH /usr/local/clhep/prod/lib:$XERCESCROOT/lib:$LD_LIBRARY_PATH
 else
