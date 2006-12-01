@@ -9,3 +9,4 @@ else
 endif
 eval `addpath.pl /usr/local/java/jdk1.5.0_07/bin`
 eval `addpath.pl -e /usr/local/wired/bin`
+eval `addpath.pl $G4WORKDIR/bin/$G4SYSTEM`
