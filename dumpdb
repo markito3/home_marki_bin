@@ -1,0 +1,63 @@
+#!/bin/sh
+
+#
+# if this isn't running as a cron job, you are living on borrowed time. :-)
+# 2001.02.05 bhess@jlab.org -- a script to dump out store databases
+# 2007.03.09 bhess@jlab.org -- How time flies. Update to add more command line options, like the dblist.
+
+PATH=/usr/local/mysql/bin:/usr/local/mss/bin:/usr/local/bin:${PATH}
+
+if [ $# -lt 5 ]; then
+	echo ""
+	echo "usage: $0 HOST USER PASS DESTDIR DBNAME [DBNAME...]"
+	echo ""
+	exit 1
+fi
+
+HOST=$1
+shift
+USER=$1
+shift
+PASS=$1
+shift
+DEST=$1
+shift
+DBLIST=$*
+
+SERVER=`uname -n`
+
+echo "Database unload to ${DEST} starting."
+echo "Databases being backed up: $DBLIST"
+echo ""
+
+if [ ! -d ${DEST} ]; then
+	echo ${DEST} is not a directory!
+	exit 1
+fi
+
+if [ ! -d ${DEST} ]; then
+	mkdir -p ${DEST} || exit 1
+	echo "created ${DEST}"
+fi	
+
+if [ ! -r ${DEST} ]; then
+	echo "${DEST} not readable!" && exit 1
+fi
+
+if [ ! -w ${DEST} ]; then
+	echo "${DEST} not writeable!" && exit 1
+fi
+
+DATESTAMP=`date "+%Y-%m-%d-%H-%M-%S"`
+
+for DB in ${DBLIST} ; do
+    echo "${DB} is being dumped"
+    echo "   starting at `date`"
+    mysqldump --opt -u${USER} -p${PASS} -h${HOST} ${DB} | gzip > ${DEST}/dump.${SERVER}.${DB}.${DATESTAMP}.gz
+    echo "   finished at `date`"
+    echo ""
+done
+
+echo "cleaning up old dumps: "
+find ${DEST} -ctime +2 -print -exec rm {} \;
+
