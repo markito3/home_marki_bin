@@ -1,14 +1,12 @@
 #!/usr/bin/expect --
 set passwd "********"
+set passwd2 "********"
 set timeout 30
-spawn ssh -t -L5901:localhost:5901 login2.jlab.org \
+spawn ssh -t -L5901:localhost:5901 login.jlab.org \
     ssh -t -L5901:localhost:5901 claspc2
 expect "password"
 send "$passwd\r"
 expect "password"
-send "$passwd\r"
+send "$passwd2\r"
 expect ">"
-#send "vncserver -kill :1\r"
-#expect ">"
-#send "vncserver\r"
 interact
