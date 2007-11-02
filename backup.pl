@@ -1,7 +1,8 @@
 #!/usr/bin/perl -w
-$target_dir = "/u/scratch/marki/home/`date_fixed.pl`/";
+$format = $ARGV[0];
+$target_dir = "/u/scratch/marki/home/`date $format`/";
 system "mkdir -p $target_dir";
-$rsync_command = "rsync -ruv --exclude='marki/Music/**' /home $target_dir";
+$rsync_command = "rsync -ruv --exclude='Music/**' /home/marki $target_dir";
 print "rsync_command = ", $rsync_command, "\n";
 system $rsync_command;
 exit 0;
