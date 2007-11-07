@@ -7,6 +7,6 @@ while (<PS>) {
     }
 }
 if ($n == 0) {
-print "logbot not running\n";
+    print "logbot not running\n";
 }
 exit 0;
