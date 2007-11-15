@@ -1,5 +1,9 @@
 #!/usr/bin/perl -w
-$format = $ARGV[0];
+if ($ARGV[0]) {
+    $format = $ARGV[0];
+} else {
+    $format = "+%Y-%m-%d:%H:%M";
+}
 $target_dir = "/u/scratch/marki/home/`date $format`";
 system "mkdir -p $target_dir";
 $rsync_command = "rsync -ruv --exclude='Music/**' --exclude='Download/**' --exclude='.*/**' /home/marki $target_dir/";
