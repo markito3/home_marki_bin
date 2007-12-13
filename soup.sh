@@ -1,4 +1,5 @@
 #!/bin/sh
-sleep $1
+seconds=$((60*$1))
+sleep $seconds
 eog ~marki/misc/soup.gif >& /dev/null
 exit
