@@ -1,9 +1,9 @@
 # initialize the environment
-setenv JANA_HOME /home/marki/jana/jana_svn_daily_linux
+setenv JANA_HOME /usr/local/gluex/jana/jana_svn_daily_linux
 setenv OS `/bin/uname -s`
 setenv ARCH `/bin/uname -p`
 setenv OSNAME ${OS}-${ARCH}
-setenv HALLD_HOME /home/marki/gluex
+setenv HALLD_HOME /usr/local/gluex/halld
 setenv JANA_CALIB_URL file:///home/marki/gluex/calib
 setenv ROOTSYS /usr/local/src/root/prod
 setenv XERCESCROOT /usr/local/xerces-c/prod
