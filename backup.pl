@@ -8,7 +8,7 @@ $target_dir = "/u/scratch/marki/home/" . `date $format`;
 chomp $target_dir;
 $logfile = $target_dir . "/backup.log";
 system "mkdir -p $target_dir";
-$rsync_command = "rsync -ruvt --delete  --include='.tomboy/**' --include='.aspell.*' --exclude='Music/**' --exclude='.*/**' /home/marki $target_dir/";
+$rsync_command = "rsync -ruvt --delete --exclude='Music/**' --exclude='.Trash/**' --exclude='.beagle/**' /home/marki $target_dir/";
 #print "rsync_command = ", $rsync_command, "\n";
 if (-e $logfile) {
     #print "$logfile exists\n";
