@@ -1,4 +1,4 @@
-#!/usr/local/bin/perl
+#!/usr/bin/env perl
 $target = $ARGV[0];
 $replacement = $ARGV[1];
 $file = $ARGV[2];
