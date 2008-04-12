@@ -65,6 +65,7 @@ if ($opt_d) {
 } else {
     print GPLT "plot \"/tmp/float_diff_plot.txt\" using 1:2, \"/tmp/float_diff_plot.txt\" using 1:3\n";
 }
+print GPLT "load \"/home/marki/misc/save-png.gplt\"\n";
 print GPLT "pause 300\n";
 
 close(ONE);
