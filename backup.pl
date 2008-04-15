@@ -20,7 +20,7 @@ $rsync_command .= " --exclude='.openoffice.org*/**'";
 $rsync_command .= " --exclude='.kde/**'";
 $rsync_command .= " --exclude='.java/**'";
 $rsync_command .= " /home/marki $target_dir/";
-print "rsync_command = ", $rsync_command, "\n";
+#print "rsync_command = ", $rsync_command, "\n";
 if (-e $logfile) {
     #print "$logfile exists\n";
     #print "mv $logfile ${logfile}.previous\n";
