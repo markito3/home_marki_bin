@@ -6,6 +6,7 @@ if ($ARGV[0]) {
 }
 $target_dir = "/u/scratch/marki/home/" . `date $format`;
 chomp $target_dir;
+#print "target_dir = $target_dir\n";
 $logfile = $target_dir . "/backup.log";
 system "mkdir -p $target_dir";
 $rsync_command = "rsync -ruvt --delete";
@@ -20,7 +21,6 @@ $rsync_command .= " --exclude='.openoffice.org*/**'";
 $rsync_command .= " --exclude='.kde/**'";
 $rsync_command .= " --exclude='.java/**'";
 $rsync_command .= " /home/marki $target_dir/";
-#print "rsync_command = ", $rsync_command, "\n";
 if (-e $logfile) {
     #print "$logfile exists\n";
     #print "mv $logfile ${logfile}.previous\n";
@@ -28,5 +28,6 @@ if (-e $logfile) {
 } else {
     #print "$logfile does not exist\n";
 }
+#print "rsync_command = ", $rsync_command, "\n";
 system "$rsync_command > $target_dir/backup.log";
 exit 0;
