@@ -20,6 +20,8 @@ $rsync_command .= " --exclude='.gconf*/**'";
 $rsync_command .= " --exclude='.openoffice.org*/**'";
 $rsync_command .= " --exclude='.kde/**'";
 $rsync_command .= " --exclude='.java/**'";
+$rsync_command .= " --exclude='.thumbnails/**'";
+$rsync_command .= " --exclude='.macromedia/**'";
 $rsync_command .= " /home/marki $target_dir/";
 if (-e $logfile) {
     #print "$logfile exists\n";
