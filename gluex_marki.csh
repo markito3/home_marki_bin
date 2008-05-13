@@ -12,5 +12,6 @@ setenv LD_LIBRARY_PATH  $ROOTSYS/lib:$XERCESCROOT/lib
 setenv CERN /usr/local/cernlib
 setenv CERN_LEVEL 2006
 setenv CERN_ROOT $CERN/$CERN_LEVEL
+setenv HALLD_MY /scratch/${USER}/halld_my
 # extend path
 eval `addpath.pl $ROOTSYS/bin $CERN_ROOT`
