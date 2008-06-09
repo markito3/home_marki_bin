@@ -5,7 +5,7 @@ setenv ARCH `/bin/uname -p`
 setenv OSNAME ${OS}-${ARCH}
 setenv HALLD_HOME /usr/local/halld/prod
 setenv JANA_CALIB_URL file:///home/marki/gluex/calib
-setenv ROOTSYS /usr/local/src/root/prod
+setenv ROOTSYS /usr/local/root/prod
 setenv XERCESCROOT /usr/local/xerces-c/prod
 setenv XERCES_INCLUDE $XERCESCROOT/include
 setenv LD_LIBRARY_PATH  $ROOTSYS/lib:$XERCESCROOT/lib

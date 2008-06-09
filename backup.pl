@@ -12,6 +12,7 @@ system "mkdir -p $target_dir";
 $rsync_command = "rsync -ruvt --delete";
 $rsync_command .= " --exclude='Music/**'";
 $rsync_command .= " --exclude='.Trash/**'";
+$rsync_command .= " --exclude='.local/share/Trash/**'";
 $rsync_command .= " --exclude='.beagle/**'";
 $rsync_command .= " --exclude='.mozilla/**'";
 $rsync_command .= " --exclude='.thunderbird/**'";
@@ -22,6 +23,7 @@ $rsync_command .= " --exclude='.kde/**'";
 $rsync_command .= " --exclude='.java/**'";
 $rsync_command .= " --exclude='.thumbnails/**'";
 $rsync_command .= " --exclude='.macromedia/**'";
+$rsync_command .= " --exclude='.gvfs'";
 $rsync_command .= " /home/marki $target_dir/";
 if (-e $logfile) {
     #print "$logfile exists\n";
