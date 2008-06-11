@@ -27,6 +27,9 @@ $rsync_command .= " --exclude='.gvfs'";
 $rsync_command .= " --exclude='.metacity'";
 $rsync_command .= " --exclude='.nautilus'";
 $rsync_command .= " --exclude='.openoffice'";
+$rsync_command .= " --exclude='.dbus'";
+$rsync_command .= " --exclude='.evolution'";
+$rsync_command .= " --exclude='.wapi'";
 $rsync_command .= " /home/marki $target_dir/";
 if (-e $logfile) {
     #print "$logfile exists\n";
