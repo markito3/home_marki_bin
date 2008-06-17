@@ -30,6 +30,7 @@ $rsync_command .= " --exclude='.openoffice'";
 $rsync_command .= " --exclude='.dbus'";
 $rsync_command .= " --exclude='.evolution'";
 $rsync_command .= " --exclude='.wapi'";
+$rsync_command .= " --exclude='.tomboy/addin*'";
 $rsync_command .= " /home/marki $target_dir/";
 if (-e $logfile) {
     #print "$logfile exists\n";
