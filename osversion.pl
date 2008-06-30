@@ -6,7 +6,12 @@ if ($uname eq 'Linux') {
 	$release_string = `cat /etc/fedora-release`;
 	if ($release_string =~ /^Fedora release 9.*/) {
 	    $release = '_Fedora9';
+	} elsif ($release_string =~ /^Fedora release 8.*/) {
+	    $release = '_Fedora8';
+	} elsif ($release_string =~ /^Fedora release 7.*/) {
+	    $release = '_Fedora7';
 	} else {
+	    print STDERR "unrecognized Fedora release\n";
 	    $release = '_Fedora';
 	}
     } elsif (-e '/etc/redhat-release') {
@@ -16,13 +21,14 @@ if ($uname eq 'Linux') {
 	} elsif ($release_string =~ /^Red Hat Enterprise Linux Client release 5.*/) {
 	    $release = '_RHEL5';
 	} else {
+	    print STDERR "unrecognized Red Hat release\n";
 	    $release = '_RH';
 	}
     } else {
 	$release = '';
     }
 } elsif ($uname eq 'SunOS') {
-    $release = `uname -r`;
+    $release = '_' . `uname -r`;
     chomp $release;
 } else {
     $release = '';
