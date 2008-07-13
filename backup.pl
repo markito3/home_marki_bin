@@ -1,12 +1,20 @@
 #!/usr/bin/perl -w
-if ($ARGV[0]) {
-    $format = $ARGV[0];
-} else {
+use Getopt::Std;
+getopts('t:s:d:');
+$type = $opt_t;
+$source = $opt_s;
+$dest = $opt_d;
+if ($type eq 'one_time') {
     $format = "+%Y-%m-%d:%H:%M";
+} elsif ($type eq 'day_of_week') {
+    $format = '+%a';
+} else {
+    print STDERR "bad format for type\n";
+    exit 1;
 }
-$target_dir = "/u/scratch/marki/home/" . `date $format`;
+$target_dir = $dest . '/' . `date $format`;
 chomp $target_dir;
-#print "target_dir = $target_dir\n";
+print "target_dir = $target_dir\n";
 $logfile = $target_dir . "/backup.log";
 system "mkdir -p $target_dir";
 $rsync_command = "rsync -ruvt --delete";
@@ -31,14 +39,14 @@ $rsync_command .= " --exclude='.dbus'";
 $rsync_command .= " --exclude='.evolution'";
 $rsync_command .= " --exclude='.wapi'";
 $rsync_command .= " --exclude='.tomboy/addin*'";
-$rsync_command .= " /home/marki $target_dir/";
+$rsync_command .= " $source $target_dir/";
 if (-e $logfile) {
-    #print "$logfile exists\n";
-    #print "mv $logfile ${logfile}.previous\n";
+    print "$logfile exists\n";
+    print "mv $logfile ${logfile}.previous\n";
     system "mv $logfile ${logfile}.previous";
 } else {
-    #print "$logfile does not exist\n";
+    print "$logfile does not exist\n";
 }
-#print "rsync_command = ", $rsync_command, "\n";
+print "rsync_command = ", $rsync_command, "\n";
 system "$rsync_command > $target_dir/backup.log";
 exit 0;
