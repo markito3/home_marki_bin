@@ -30,6 +30,7 @@ $logfile = $target_dir . "/backup.log";
 system "mkdir -p $target_dir";
 $rsync_command = "rsync -ruvt --delete";
 $rsync_command .= " --exclude='Music/**'";
+$rsync_command .= " --exclude='Podcasts/**'";
 $rsync_command .= " --exclude='.Trash/**'";
 $rsync_command .= " --exclude='.local/share/Trash/**'";
 $rsync_command .= " --exclude='.beagle/**'";
