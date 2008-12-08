@@ -19,7 +19,13 @@ if ($ARGV[0] eq '-e') {
 } else {
     $add_to_end = 0;
 }
-$line=$ENV{'PATH'};
+if ($ARGV[0] eq '-l') {
+    $pathtype = "LD_LIBRARY_PATH";
+    shift @ARGV;
+} else {
+    $pathtype = "PATH";
+}
+$line=$ENV{$pathtype};
 @field = split(/:/,$line);
 $newpath = $line;
 for($i = $#ARGV; $i >= 0; $i--) {
@@ -38,5 +44,5 @@ for($i = $#ARGV; $i >= 0; $i--) {
       }
   }
 }
-print "setenv PATH $newpath\n";
+print "setenv $pathtype $newpath\n";
 exit
