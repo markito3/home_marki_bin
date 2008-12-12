@@ -1,17 +1,9 @@
 #!/usr/bin/perl -w
 #
-$target_dir = "/home/marki/USB/roentgen/home/marki";
-chomp $target_dir;
-#print "target_dir = $target_dir\n";
+$target_dir = "/home/marki/USB/documents/work";
 system "mkdir -p $target_dir";
 $rsync_command = "rsync -ruvtc --delete";
-$rsync_command .= " /home/marki/halld";
 $rsync_command .= " /home/marki/Documents";
-$rsync_command .= " /home/marki/Desktop";
-$rsync_command .= " /home/marki/my";
-$rsync_command .= " /home/marki/primex";
-$rsync_command .= " /home/marki/misc";
-$rsync_command .= " /home/marki/bin";
 $rsync_command .= " $target_dir/";
 $logfile = $target_dir . "/backup.log";
 if (-e $logfile) {

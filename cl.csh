@@ -3,6 +3,7 @@ rm -i .*~
 rm -i '#'*'#'
 rm -i *.aux
 rm -i *.tmp
+rm -i .tmp*
 rm -i *.BAK
 rm -i .*.BAK
 rm -i *.bak
