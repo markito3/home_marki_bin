@@ -1,4 +1,4 @@
-setenv CLHEP /usr/local/clhep/prod
+if (! $?CLHEP) setenv CLHEP /usr/local/clhep/prod
 setenv CLHEP_INCLUDE $CLHEP/include
 setenv CLHEP_LIB $CLHEP/lib
 if (! $?LD_LIBRARY_PATH) setenv LD_LIBRARY_PATH ''
