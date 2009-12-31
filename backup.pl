@@ -3,10 +3,19 @@ use Getopt::Std;
 $opt_t = ""; # set opt variables to avoid warnings
 $opt_s = "";
 $opt_d = "";
-getopts('t:s:d:');
+$opt_h = "";
+getopts('t:s:d:h');
 $type = $opt_t;
 $source = $opt_s;
 $dest = $opt_d;
+$help = $opt_h;
+if ($help) {
+    print <<EOM;
+valid type options are:
+one_time, minute, hour_minute, day_of_week, day_of_month, month 
+EOM
+exit;
+}
 if ($type eq 'one_time') {
     $format = "+%Y-%m-%d:%H:%M";
 } elsif ($type eq 'minute') {
@@ -51,6 +60,11 @@ $rsync_command .= " --exclude='Documents_work/**'";
 $rsync_command .= " --exclude='.Koala/**'";
 $rsync_command .= " --exclude='Download/**'";
 $rsync_command .= " --exclude='.cache/**'";
+$rsync_command .= " --exclude='.thunderbird/**'";
+$rsync_command .= " --exclude='.mozilla/**'";
+$rsync_command .= " --exclude='.gnupg/**'";
+$rsync_command .= " --exclude='.gnome*/**'";
+$rsync_command .= " --exclude='.gconf*/**'";
 $rsync_command .= " $source $target_dir/";
 if (-e $logfile) {
     #print "$logfile exists\n";
