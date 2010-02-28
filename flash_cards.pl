@@ -34,7 +34,7 @@ sub get_a_card() {
 	} else {
 	    die "bad operation";
 	}
-	if (!($operation eq 'X' && ($op1 > 4 && $op2 > 4))) {$not_a_good_card = 0;}
+	if ($operation eq '+' || $operation eq '-') {$not_a_good_card = 0;}
     }
     my $card =  "$op1 $operation $op2";
     return $card;
