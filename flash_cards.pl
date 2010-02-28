@@ -1,9 +1,19 @@
 #! /usr/bin/env perl
 
+use CGI qw/:standard/;
+
+$title = "Flash Cards";
+print header,
+    start_html($title),
+    "<ol>\n";
+
+
 for ($i = 1; $i <= 15; $i++) {
     $card = get_a_card();
-    print "$i) $card\n";
+    print "<li> $card\n";
 }
+
+print "</ol></body></html>\n";
 exit;
 
 sub get_a_card() {
