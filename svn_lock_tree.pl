@@ -22,7 +22,7 @@ sub lock_files_in_dir {
 	    print "$file: non-blank status = $status\n";
 	} else {
 	    print "$file: attempting lock\n";
-	    print "svn lock $file\n";
+	    system "svn lock $file";
 	}
     }
     close (FINDFILES);
