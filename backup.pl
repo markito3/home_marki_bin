@@ -12,7 +12,7 @@ $help = $opt_h;
 if ($help) {
     print <<EOM;
 valid type options are:
-one_time, minute, hour_minute, day_of_week, day_of_month, month 
+one_time, one_time_no_date, minute, hour_minute, day_of_week, day_of_month, month 
 EOM
 exit;
 }
@@ -28,11 +28,17 @@ if ($type eq 'one_time') {
     $format = '+%d';
 } elsif ($type eq 'month') {
     $format = '+%b';
+} elsif ($type eq 'one_time_no_date') {
+    $format = 'undefined';
 } else {
     print STDERR "bad format for type, $type\n";
     exit 1;
 }
-$target_dir = $dest . '/' . `date $format`;
+if ($type eq 'one_time_no_date') {
+    $target_dir = $dest;
+} else {
+    $target_dir = $dest . '/' . `date $format`;
+}
 chomp $target_dir;
 #print "target_dir = $target_dir\n";
 $logfile = $target_dir . "/backup.log";
