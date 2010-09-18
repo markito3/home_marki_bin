@@ -37,7 +37,7 @@ sub get_a_card() {
 	if ($operation eq '+'
 	    || $operation eq '-'
 	    || $operation eq '&times;' && $n1 <= 6 && $n2 <= 6
-	    || $operation eq '&divide;' && $n1 <= 3 && $n2 <= 3) {
+	    || $operation eq '&divide;' && $n1 <= 4 && $n2 <= 4) {
 	    $not_a_good_card = 0;
 	}
     }
