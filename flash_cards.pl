@@ -22,19 +22,24 @@ sub get_a_card() {
 	$n1 = get_a_number();
 	$n2 = get_a_number();
 	$operation = get_an_operation();
-	if ($operation eq '+' || $operation eq 'X') {
+	if ($operation eq '+' || $operation eq '&times;') {
 	    $op1 = $n1;
 	    $op2 = $n2;
 	} elsif ($operation eq '-') {
 	    $op1 = $n1 + $n2;
 	    $op2 = $n1;
-	} elsif ($operation eq '/') {
+	} elsif ($operation eq '&divide;') {
 	    $op1 = $n1 * $n2;
 	    $op2 = $n1;
 	} else {
 	    die "bad operation";
 	}
-	if ($operation eq '+' || $operation eq '-' || $operation eq 'X' && $n1 <= 5 && $n2 <= 5) {$not_a_good_card = 0;}
+	if ($operation eq '+'
+	    || $operation eq '-'
+	    || $operation eq '&times;' && $n1 <= 6 && $n2 <= 6
+	    || $operation eq '&divide;' && $n1 <= 3 && $n2 <= 3) {
+	    $not_a_good_card = 0;
+	}
     }
     my $card =  "$op1 $operation $op2";
     return $card;
@@ -48,7 +53,7 @@ sub get_a_number {
 }
 
 sub get_an_operation {
-    @operations = ('+', '-', 'X');
+    @operations = ('+', '-', '&times;', '&divide;');
     $max = $#operations + 1;
     $ranno = rand($max);
     $index = int($ranno);
