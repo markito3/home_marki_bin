@@ -1,4 +1,5 @@
-setenv ROOTSYS /usr/local/root/prod
-eval `addpath.pl /usr/local/root/prod/bin`
-eval `addpath.pl -l $ROOTSYS/lib`
-
+if (! $?ROOTSYS) setenv ROOTSYS /usr/local/gluex/root/prod
+echo $PATH | grep $ROOTSYS/bin > /dev/null
+if ($status) setenv PATH $ROOTSYS/bin:$PATH
+echo $LD_LIBRARY_PATH | grep $ROOTSYS/lib > /dev/null
+if ($status) setenv LD_LIBRARY_PATH  $ROOTSYS/lib:$LD_LIBRARY_PATH
