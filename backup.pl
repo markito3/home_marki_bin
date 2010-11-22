@@ -71,6 +71,7 @@ $rsync_command .= " --exclude='.mozilla/**'";
 $rsync_command .= " --exclude='.gnupg/**'";
 $rsync_command .= " --exclude='.gnome*/**'";
 $rsync_command .= " --exclude='.gconf*/**'";
+$rsync_command .= " --exclude='.google/desktop/repo/**'";
 $rsync_command .= " $source $target_dir/";
 if (-e $logfile) {
     #print "$logfile exists\n";
