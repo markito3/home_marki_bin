@@ -8,7 +8,7 @@ print header,
     "<ol>\n";
 
 
-for ($i = 1; $i <= 15; $i++) {
+for ($i = 1; $i <= 20; $i++) {
     $card = get_a_card();
     print "<li> $card\n";
 }
@@ -36,8 +36,8 @@ sub get_a_card() {
 	}
 	if ($operation eq '+'
 	    || $operation eq '-'
-	    || $operation eq '&times;' && $n1 <= 6 && $n2 <= 6
-	    || $operation eq '&divide;' && $n1 <= 6 && $n2 <= 6) {
+	    || $operation eq '&times;' && $n1 <= 7 && $n2 <= 7
+	    || $operation eq '&divide;' && $n1 <= 5 && $n2 <= 5) {
 	    $not_a_good_card = 0;
 	}
     }
