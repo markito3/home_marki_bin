@@ -6,7 +6,7 @@ while (1) {
     system "alarm.sh $minutes";
     $total_minutes += $minutes;
     $next_minutes = 2**($i + 1);
-    print "$total_minutes so far, $next_minutes more? <enter> = yes, n = no: ";
+    print "\n$total_minutes so far, $next_minutes more? <enter> = yes, n = no: ";
     $response = <STDIN>;
     if ($response =~ /n/) {exit;}
     $i++
