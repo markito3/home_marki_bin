@@ -2,7 +2,6 @@
 $i = 0;
 while (1) {
     $minutes = 2**$i;
-    print "go\n";
     system "alarm.sh $minutes";
     $total_minutes += $minutes;
     $next_minutes = 2**($i + 1);
