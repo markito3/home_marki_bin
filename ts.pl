@@ -3,9 +3,9 @@ open(IN, "/home/marki/Documents/ts.txt");
 while (<IN>) {
     #print;
     chomp;
-    split /,/;
-    $month = $_[0];
-    $day = $_[1];
+    @token = split /,/;
+    $month = $token[0];
+    $day = $token[1];
     if ($day != $day_last) {
 	write_day_summary();
 	$hour_sum = 0;
@@ -13,15 +13,15 @@ while (<IN>) {
     }
     $day_last = $day;
     $month_last = $month;
-    $time_in = $_[2];
-    $time_out = $_[3];
-    split (/:/, $time_in);
-    $hour_in = $_[0];
-    $minute_in = $_[1];
+    $time_in = $token[2];
+    $time_out = $token[3];
+    @token = split (/:/, $time_in);
+    $hour_in = $token[0];
+    $minute_in = $token[1];
     if ($time_out) {
-	split (/:/, $time_out);
-	$hour_out = $_[0];
-	$minute_out = $_[1];
+	@token = split (/:/, $time_out);
+	$hour_out = $token[0];
+	$minute_out = $token[1];
 	$dmin = $minute_out - $minute_in;
 	if ($dmin < 0) {
 	    $dmin += 60;
