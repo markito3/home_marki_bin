@@ -1,5 +1,5 @@
 #!/usr/bin/perl
-open(IN, "/home/marki/Documents/ts.txt");
+open(IN, "/home/marki/Documents/Documents_work/ts.txt");
 while (<IN>) {
     #print;
     chomp;
