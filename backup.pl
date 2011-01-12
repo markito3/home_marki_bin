@@ -4,11 +4,13 @@ $opt_t = ""; # set opt variables to avoid warnings
 $opt_s = "";
 $opt_d = "";
 $opt_h = "";
-getopts('t:s:d:h');
+$opt_e = "";
+getopts('t:s:d:he:');
 $type = $opt_t;
 $source = $opt_s;
 $dest = $opt_d;
 $help = $opt_h;
+$exe_command = $opt_e;
 if ($help) {
     print <<EOM;
 valid type options are:
@@ -39,11 +41,12 @@ if ($type eq 'one_time_no_date') {
 } else {
     $target_dir = $dest . '/' . `date $format`;
 }
+if ($exe_command) {$e_option = "-e \'$exe_command\'";} else {$e_option = "";}
 chomp $target_dir;
 #print "target_dir = $target_dir\n";
 $logfile = $target_dir . "/backup.log";
 system "mkdir -p $target_dir";
-$rsync_command = "rsync -ruvt --delete";
+$rsync_command = "rsync -ruvt --delete $e_option";
 $rsync_command .= " --exclude='Music/**'";
 $rsync_command .= " --exclude='Podcasts/**'";
 $rsync_command .= " --exclude='.Trash/**'";
@@ -72,6 +75,8 @@ $rsync_command .= " --exclude='.gnupg/**'";
 $rsync_command .= " --exclude='.gnome*/**'";
 $rsync_command .= " --exclude='.gconf*/**'";
 $rsync_command .= " --exclude='.google/desktop/repo/**'";
+$rsync_command .= " --exclude='.VirtualBox/HardDisks/**'";
+$rsync_command .= " --exclude='Dropbox/**'";
 $rsync_command .= " $source $target_dir/";
 if (-e $logfile) {
     #print "$logfile exists\n";
