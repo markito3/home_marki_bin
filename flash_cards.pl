@@ -34,10 +34,12 @@ sub get_a_card() {
 	} else {
 	    die "bad operation";
 	}
-	if ($operation eq '+'
+	if (
+	    $operation eq '+'
 	    || $operation eq '-'
 	    || $operation eq '&times;'
-	    || $operation eq '&divide;' && $n1 != 0) {
+	    || $operation eq '&divide;' && $n1 != 0
+	    ) {
 	    $not_a_good_card = 0;
 	}
     }
@@ -46,7 +48,7 @@ sub get_a_card() {
 }
 
 sub get_a_number {
-    $max = 9;
+    $max = 13;
     $ranno = rand($max);
     $result = int($ranno);
     return $result;
@@ -54,8 +56,19 @@ sub get_a_number {
 
 sub get_an_operation {
     @operations = ('+', '-', '&times;', '&divide;');
-    $max = $#operations + 1;
+    $max = 12.0;
     $ranno = rand($max);
-    $index = int($ranno);
+    #print "ranno = $ranno ";
+    if ($ranno < 1.0) {
+	$index = 0;
+    } elsif (1.0 <= $ranno && $ranno < 2.0) {
+	$index = 1;
+    } elsif (2.0 <= $ranno && $ranno < 3.0) {
+	$index = 3;
+    } else {
+	$index = 2;
+    }
+    #print "index = $index ";
+    #print "return = $operations[$index] ";
     return $operations[$index];
 }
