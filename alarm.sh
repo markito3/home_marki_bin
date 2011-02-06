@@ -2,5 +2,8 @@
 seconds=$((60*$1))
 sleeper.pl $seconds
 display /home/marki/misc/alarmclock.png &
-xmms /usr/share/sounds/freedesktop/stereo/alarm-clock-elapsed.oga > /dev/null &
+if [ -z $2 ]
+    then
+    xmms /usr/share/sounds/freedesktop/stereo/alarm-clock-elapsed.oga > /dev/null &
+fi
 exit
