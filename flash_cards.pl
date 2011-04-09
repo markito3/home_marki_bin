@@ -56,7 +56,7 @@ sub get_a_number {
 
 sub get_an_operation {
     @operations = ('+', '-', '&times;', '&divide;');
-    $max = 12.0;
+    $max = 4.0;
     $ranno = rand($max);
     #print "ranno = $ranno ";
     if ($ranno < 1.0) {
@@ -64,9 +64,9 @@ sub get_an_operation {
     } elsif (1.0 <= $ranno && $ranno < 2.0) {
 	$index = 1;
     } elsif (2.0 <= $ranno && $ranno < 3.0) {
-	$index = 3;
-    } else {
 	$index = 2;
+    } else {
+	$index = 3;
     }
     #print "index = $index ";
     #print "return = $operations[$index] ";
