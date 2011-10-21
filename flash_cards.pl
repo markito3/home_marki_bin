@@ -48,7 +48,7 @@ sub get_a_card() {
 }
 
 sub get_a_number {
-    $max = 13;
+    $max = 10;
     $ranno = rand($max);
     $result = int($ranno);
     return $result;
