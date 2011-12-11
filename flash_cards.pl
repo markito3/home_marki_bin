@@ -56,14 +56,14 @@ sub get_a_number {
 
 sub get_an_operation {
     @operations = ('+', '-', '&times;', '&divide;');
-    $max = 4.0;
+    $max = 6.0;
     $ranno = rand($max);
     #print "ranno = $ranno ";
     if ($ranno < 1.0) {
 	$index = 0;
     } elsif (1.0 <= $ranno && $ranno < 2.0) {
 	$index = 1;
-    } elsif (2.0 <= $ranno && $ranno < 3.0) {
+    } elsif (2.0 <= $ranno && $ranno < 4.0) {
 	$index = 2;
     } else {
 	$index = 3;
