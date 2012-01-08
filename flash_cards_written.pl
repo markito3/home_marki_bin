@@ -8,7 +8,7 @@ print header,
     "<ol>\n";
 
 
-for ($i = 1; $i <= 12; $i++) {
+for ($i = 1; $i <= 15; $i++) {
     $card = get_a_card();
     print "<li> $card\n";
 }
