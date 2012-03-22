@@ -8,5 +8,6 @@ while (1) {
     print "\n$total_minutes so far, $next_minutes more? <enter> = yes, n = no: ";
     $response = <STDIN>;
     if ($response =~ /n/) {exit;}
+    system "kproc.pl flash.sh 1";
     $i++
 }
