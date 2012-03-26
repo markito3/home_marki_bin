@@ -17,7 +17,7 @@ $found = 0;
 while (<PS>) {
     if (/$program_name/ && !/kproc\.pl/) {
 	$found = 1;
-	print;
+	if (! $delete_no_prompt) {print;}
 	@field = split(/\s+/);
 	$proc_id = $field[1];
 	if ($delete_no_prompt) {
