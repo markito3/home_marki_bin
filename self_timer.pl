@@ -1,5 +1,6 @@
 #!/usr/bin/env perl
-$i = 0;
+$i = 1;
+$total_minutes = 0;
 while (1) {
     $minutes = 2**$i;
     system "/home/marki/bin/alarm.sh $minutes";
