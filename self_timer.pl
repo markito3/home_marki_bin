@@ -1,5 +1,5 @@
 #!/usr/bin/env perl
-$i = 1;
+$i = 0;
 $total_minutes = 0;
 while (1) {
     $minutes = 2**$i;
