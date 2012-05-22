@@ -10,6 +10,11 @@ rm -i *.bak
 rm -i *.dvi
 rm -i *scratch*
 rm -i last.kumac*
+rm -i *.nav
+rm -i *.out
+rm -i *.snm
+rm -i *.toc
+rm -i *.vrb
 rm -i higz_windows.dat
 rm -i paw.metafile
 rm -i a.out
