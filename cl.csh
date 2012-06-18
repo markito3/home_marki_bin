@@ -19,3 +19,5 @@ rm -i higz_windows.dat
 rm -i paw.metafile
 rm -i a.out
 rm -i core
+rm -i *.bbl
+rm -i *.blg
