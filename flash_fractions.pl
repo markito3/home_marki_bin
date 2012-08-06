@@ -8,7 +8,7 @@ print header,
     "<ol>\n";
 
 
-for ($i = 1; $i <= 10; $i++) {
+for ($i = 1; $i <= 5; $i++) {
     $card = get_a_card();
     print "<li> $card\n";
 }
@@ -20,10 +20,10 @@ sub get_a_card() {
     $not_a_good_card = 1;
     while ($not_a_good_card) {
 	$operation = get_an_operation();
-	$n1 = get_a_number(10);
-	$n2 = get_a_number(10);
-	$n3 = get_a_number(10);
-	$n4 = get_a_number(10);
+	$n1 = get_a_number(7);
+	$n2 = get_a_number(7);
+	$n3 = get_a_number(7);
+	$n4 = get_a_number(7);
 	if ($operation eq '+') {
 	    $op1 = "$n1/$n2";
 	    $op2 = "$n3/$n4";
@@ -54,7 +54,8 @@ sub get_a_card() {
 	    && $n3 < $n4
 	    && ltcheck($n1,$n2)
 	    && ltcheck($n3,$n4)
-	    && $n2 == $n4
+	    && $n2 > 1
+	    && $n4 > 1
 	    ) {
 	    $not_a_good_card = 0;
 	}
@@ -78,7 +79,7 @@ sub ltcheck {
 
 sub get_a_number {
     my ($max) = @_;
-    $ranno = rand($max);
+    $ranno = rand($max + 1);
     $result = int($ranno);
     return $result;
 }
