@@ -8,7 +8,7 @@ print header,
     "<ol>\n";
 
 
-for ($i = 1; $i <= 15; $i++) {
+for ($i = 1; $i <= 10; $i++) {
     $card = get_a_card();
     print "<li> $card\n";
 }
@@ -50,12 +50,30 @@ sub get_a_card() {
 	if (
 	    $n2 != 0
 	    && $n4 !=0
+	    && $n1 < $n2
+	    && $n3 < $n4
+	    && ltcheck($n1,$n2)
+	    && ltcheck($n3,$n4)
+	    && $n2 == $n4
 	    ) {
 	    $not_a_good_card = 0;
 	}
     }
     my $card =  "$op1 $operation $op2";
     return $card;
+}
+
+sub ltcheck {
+    my ($n1, $n2) = @_;
+    $lt = 1;
+    for (my $i = 2; $i <= 10; $i++) {
+	if ($n1%$i == 0 && $n2%$i == 0) {$lt = 0;}	
+#debug
+#	$m1 = $n1%$i;
+#	$m2 = $n2%$i;
+#	print "$n1, $n2, $i, $m1, $m2, $lt \n";
+    }
+    return $lt;
 }
 
 sub get_a_number {
@@ -81,5 +99,7 @@ sub get_an_operation {
     }
     #print "index = $index ";
     #print "return = $operations[$index] ";
+    # override, use addition
+    $index = 0;
     return $operations[$index];
 }
