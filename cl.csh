@@ -21,3 +21,5 @@ rm -i a.out
 rm -i core
 rm -i *.bbl
 rm -i *.blg
+rm -i *.o
+rm -i *.d
