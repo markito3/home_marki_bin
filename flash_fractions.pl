@@ -7,8 +7,9 @@ print header,
     start_html($title),
     "<ol>\n";
 
+$number_of_cards = 10;
 
-for ($i = 1; $i <= 5; $i++) {
+for ($i = 1; $i <= $number_of_cards; $i++) {
     $card = get_a_card();
     print "<li> $card\n";
 }
@@ -86,7 +87,7 @@ sub get_a_number {
 
 sub get_an_operation {
     @operations = ('+', '-', '&times;', '&divide;');
-    $max = 4.0;
+    $max = 2.0;
     $ranno = rand($max);
     #print "ranno = $ranno ";
     if ($ranno < 1.0) {
@@ -98,9 +99,6 @@ sub get_an_operation {
     } else {
 	$index = 3;
     }
-    #print "index = $index ";
-    #print "return = $operations[$index] ";
-    # override, use addition
-    $index = 0;
+
     return $operations[$index];
 }
