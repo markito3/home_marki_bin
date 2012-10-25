@@ -4,6 +4,6 @@ url=$2
 rm -f $f
 lynx -dump $url | grep -v action=edit | grep -v Visible\ links > $f
 emacs $f
-echo $f
+gedit $f
 exit
 
