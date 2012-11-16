@@ -1,6 +1,6 @@
 #!/bin/sh
 i=0
-while [ $i -lt 3 ]
+while [ $i -lt 1 ]
 do
     display /home/marki/misc/alarmclock.png &
     sleep 60

@@ -4,10 +4,6 @@ seconds=$((60*$1))
 flash.sh &
 if [ -z $2 ]
     then
-    xmms /usr/share/sounds/freedesktop/stereo/complete.oga > /dev/null &
-    sleep 1
-    xmms /usr/share/sounds/freedesktop/stereo/complete.oga > /dev/null &
-    sleep 1
-    xmms /usr/share/sounds/freedesktop/stereo/complete.oga > /dev/null &
+    xmms /usr/share/sounds/freedesktop/stereo/alarm-clock-elapsed.oga > /dev/null &
 fi
 exit
