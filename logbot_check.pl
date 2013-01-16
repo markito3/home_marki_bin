@@ -1,5 +1,5 @@
 #!/usr/bin/env perl
-open (PS, "ps x |");
+open (PS, "ps ax |");
 $n = 0;
 while (<PS>) {
     if (/java org\/jibble\/logbot\/LogBotMain/) {
