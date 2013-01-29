@@ -11,5 +11,6 @@ while (1) {
     if ($response =~ /n/) {exit;}
     system "kproc.pl flash.sh 1";
     system "kproc.pl alarmclock.png 1";
+    system "kproc.pl alarm-clock-elapsed.oga 1";
     $i++
 }
