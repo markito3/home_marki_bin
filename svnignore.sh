@@ -1,5 +1,6 @@
 #!/bin/sh
-rm -f ignore.tmp
-svn propget svn:ignore . > ignore.tmp
-emacs ignore.tmp
-svn propset svn:ignore -F ignore.tmp .
+TEMPFILE=/tmp/ignore.tmp
+rm -f $TEMPFILE
+svn propget svn:ignore . > $TEMPFILE
+emacs $TEMPFILE
+svn propset svn:ignore -F $TEMPFILE .
