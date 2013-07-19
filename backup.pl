@@ -67,7 +67,7 @@ $rsync_command .= " --exclude='.wapi'";
 $rsync_command .= " --exclude='.tomboy/addin*'";
 $rsync_command .= " --exclude='Documents_work/**'";
 $rsync_command .= " --exclude='.Koala/**'";
-$rsync_command .= " --exclude='Download/**'";
+$rsync_command .= " --exclude='Downloads/**'";
 $rsync_command .= " --exclude='.cache/**'";
 $rsync_command .= " --exclude='.thunderbird/**'";
 $rsync_command .= " --exclude='.mozilla/**'";
