@@ -10,7 +10,7 @@ while (1) {
     $response = <STDIN>;
     if ($response =~ /n/) {exit;}
     system "kproc.pl flash.sh 1 0 1";
-    system "kproc.pl alarmclock.png 1 0 1";
+    system "kproc.pl alarmclock.jpg 1 0 1";
     system "kproc.pl alarm-clock-elapsed.oga 1 0 1";
     $i++
 }
