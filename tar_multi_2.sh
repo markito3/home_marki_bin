@@ -3,9 +3,14 @@
 # that supports a TAR_FD value greater than 9.
 #
 # Usage example:
+# archive:
 #
 # tar cvf /scratch/Music.tar -F /home/marki/bin/tar_multi_2.sh --multi-volume \
 #     -L 2G /home/marki/Music
+#
+# restore:
+#
+# tar xvf /scratch/Music.tar -F /home/marki/bin/tar_multi_2.sh --multi-volume
 #
 
 echo Preparing volume $TAR_VOLUME of $TAR_ARCHIVE.
