@@ -9,8 +9,8 @@ while (1) {
     print "\n$total_minutes so far, $next_minutes more? <enter> = yes, n = no: ";
     $response = <STDIN>;
     if ($response =~ /n/) {exit;}
-    system "kproc.pl flash.sh 1 0 1";
-    system "kproc.pl alarmclock.jpg 1 0 1";
-    system "kproc.pl alarm-clock-elapsed.oga 1 0 1";
+    system "/home/marki/bin/kproc.pl flash.sh 1 0 1";
+    system "/home/marki/bin/kproc.pl alarmclock.jpg 1 0 1";
+    system "/home/marki/bin/kproc.pl alarm-clock-elapsed.oga 1 0 1";
     $i++
 }
