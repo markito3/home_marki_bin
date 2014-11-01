@@ -13,8 +13,10 @@ while ($full = <FIND1>) {
     $file_for_split =~ s/\./\\\./g;
     @token_base = split(/$file_for_split/, $base0);
     $base = $token_base[0];
-    print "================$base/$file=================\n";
-    system ("diff -s $dir1/$base/$file $dir2/$base/$file");
+    print "================$base$file=================\n";
+    $command = "diff -s $dir1/$base/$file $dir2/$base/$file";
+    print "$command\n";
+    system ("$command");
 }
 exit;
 
