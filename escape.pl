@@ -7,5 +7,6 @@ while (<>) {
     $string =~ s/\'/\\\'/g;
     $string =~ s/\&/\\\&/g;
     $string =~ s/\"/\\\"/g;
+    $string =~ s/\$/\\\$/g;
     print "$string";
 }
