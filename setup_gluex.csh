@@ -1,3 +1,3 @@
-source /usr/local/gluex/build_scripts/gluex_env.csh
-#source /usr/local/gluex/build_scripts/clhep_env.csh
-source /usr/local/gluex/build_scripts/gsl_env.csh
+setenv GLUEX_TOP /home/gluex/gluex
+source $GLUEX_TOP/build_scripts/gluex_env.csh
+source $GLUEX_TOP/build_scripts/gsl_env.csh
