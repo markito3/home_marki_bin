@@ -77,8 +77,13 @@ $rsync_command .= " --exclude='.gconf*/**'";
 $rsync_command .= " --exclude='.google/desktop/repo/**'";
 $rsync_command .= " --exclude='.VirtualBox/HardDisks/**'";
 $rsync_command .= " --exclude='Dropbox/**'";
+$rsync_command .= " --exclude='.dropbox_dist/**'";
 $rsync_command .= " --exclude='.recoll/**'";
 $rsync_command .= " --exclude='VirtualBox*/**'";
+$rsync_command .= " --exclude='.local/share/gnome-boxes/images/**'";
+$rsync_command .= " --exclude='iso/**'";
+$rsync_command .= " --exclude='google_drive/**'";
+$rsync_command .= " --exclude='Dropbox/**'";
 $rsync_command .= " $source $target_dir/";
 if (-e $logfile) {
     #print "$logfile exists\n";
