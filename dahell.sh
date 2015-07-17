@@ -1,8 +1,7 @@
 #!/bin/sh
-date
-hostname
-cat /etc/redhat-release
-uname -m
-whoami
-pwd
+echo hostname = `hostname`
+echo release = `cat /etc/redhat-release`
+echo whoami = `whoami`
+echo pwd = `pwd`
+ls -lt | head -4
 exit
