@@ -3,5 +3,6 @@ echo hostname = `hostname`
 echo release = `cat /etc/redhat-release`
 echo whoami = `whoami`
 echo pwd = `pwd`
-ls -lt | head -4
+echo latest files:
+ls -lt | grep -v 'total ' | head -3
 exit
