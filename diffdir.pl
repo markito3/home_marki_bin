@@ -1,6 +1,6 @@
 #!/usr/bin/env perl
-$dir1 = $ARGV[0];
-$dir2 = $ARGV[1];
+$dir1 = escaped($ARGV[0]);
+$dir2 = escaped($ARGV[1]);
 #print "debug: dir1 = $dir1, dir2 = $dir2\n";
 $verbose = $ARGV[2];
 open(FIND1, "find $dir1 -type f |");
@@ -43,3 +43,8 @@ while ($full = <FIND1>) {
 }
 exit;
 
+sub escaped{
+    my ($string) = @_;
+    $string =~ s/ /\\ /g;
+    return $string;
+}
