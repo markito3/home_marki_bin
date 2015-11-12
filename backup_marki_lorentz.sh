@@ -1,5 +1,5 @@
 #!/bin/sh
-pushd /local/scratch/backup_marki
+pushd /local/backup/home/marki
 rm -rf backup.3
 mv -v backup.2 backup.3
 mv -v backup.1 backup.2
