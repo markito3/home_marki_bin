@@ -1,5 +1,5 @@
 #!/bin/sh
-pushd /scratch/backup_renee
+pushd /home/backup/renee
 rm -rf backup.3
 mv -v backup.2 backup.3
 mv -v backup.1 backup.2
