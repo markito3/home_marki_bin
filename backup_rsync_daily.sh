@@ -1,5 +1,5 @@
 #!/bin/sh
-pushd /home/backup/renee
+pushd /run/media/marki/FantomHD/backup/renee
 rm -rf daily.3
 mv -v daily.2 daily.3
 mv -v daily.1 daily.2
