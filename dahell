@@ -4,6 +4,7 @@ echo release = `cat /etc/redhat-release`
 uptime
 echo whoami = `whoami`
 echo pwd = `pwd`
+echo HALLD_HOME = $HALLD_HOME
 echo latest files:
 ls -lt | grep -v 'total ' | head -3
 exit
