@@ -14,5 +14,5 @@ while (<FIND>) {
     chomp $count;
     if ($count == 2) {
 	system "rmdir -v $dir\n";
-	}
+    }
 }
