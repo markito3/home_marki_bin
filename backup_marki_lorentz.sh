@@ -1,8 +1,6 @@
 #!/bin/sh
 pushd /local/backup/home/marki
-rm -rf backup.5
-mv -v backup.4 backup.5
-mv -v backup.3 backup.4
+rm -rf backup.3
 mv -v backup.2 backup.3
 mv -v backup.1 backup.2
 cp -al backup.0 backup.1
