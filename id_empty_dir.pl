@@ -1,5 +1,5 @@
 #!/usr/bin/env perl
-open (FIND, "find $ARGV[0] -type d -user $ARGV[1] |");
+open (FIND, "find $ARGV[0] -type d |");
 while (<FIND>) {
     chomp;
     $dir = $_;
