@@ -1,5 +1,5 @@
 #!/bin/bash
-pushd /u/scratch/marki
+pushd $1
 mkdir -pv gluex_install_scratch
 pushd gluex_install_scratch
 day=`date +%u`
