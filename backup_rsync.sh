@@ -1,6 +1,6 @@
 #!/bin/sh
 ip=192.168.1.195
-pushd /run/media/marki/FantomHD/backup/renee
+pushd /run/media/marki/New\ Volume/backup/renee
 rm -rf backup.3
 mv -v backup.2 backup.3
 mv -v backup.1 backup.2

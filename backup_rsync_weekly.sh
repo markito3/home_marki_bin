@@ -1,5 +1,5 @@
 #!/bin/sh
-pushd /run/media/marki/FantomHD/backup/renee
+pushd /run/media/marki/New\ Volume/backup/renee
 rm -rf weekly.2
 mv -v weekly.1 weekly.2
 mv -v weekly.0 weekly.1
