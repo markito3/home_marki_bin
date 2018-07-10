@@ -2,7 +2,7 @@
 pushd $1
 mkdir -pv gluex_install_scratch
 pushd gluex_install_scratch
-day=`date +%u`
+day=`date +%j`
 logfile=gluex_install_${day}.log
 rm -rf $day
 mkdir -pv $day
