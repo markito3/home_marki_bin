@@ -1,6 +1,8 @@
 #!/bin/sh
 pushd /run/media/marki/Travel/backup/renee
-rm -rf weekly.2
+rm -rf weekly.4
+mv -v weekly.3 weekly.4
+mv -v weekly.2 weekly.3
 mv -v weekly.1 weekly.2
 mv -v weekly.0 weekly.1
 cp -al backup.0 weekly.0

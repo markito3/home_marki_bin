@@ -1,6 +1,9 @@
 #!/bin/sh
 pushd /run/media/marki/Travel/backup/renee
-rm -rf monthly.3
+rm -rf monthly.6
+mv -v monthly.5 monthly.6
+mv -v monthly.4 monthly.5
+mv -v monthly.3 monthly.4
 mv -v monthly.2 monthly.3
 mv -v monthly.1 monthly.2
 mv -v monthly.0 monthly.1

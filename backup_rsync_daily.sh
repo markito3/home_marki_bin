@@ -1,6 +1,10 @@
 #!/bin/sh
 pushd /run/media/marki/Travel/backup/renee
-rm -rf daily.3
+rm -rf daily.7
+mv -v daily.6 daily.7
+mv -v daily.5 daily.6
+mv -v daily.4 daily.5
+mv -v daily.3 daily.4
 mv -v daily.2 daily.3
 mv -v daily.1 daily.2
 mv -v daily.0 daily.1
