@@ -1,0 +1,14 @@
+#!/bin/bash
+logfile=/tmp/grive_marki/grive_`date -Iminutes`.log
+lockfile=/tmp/grive_marki/grive_`hostname`.lock
+mkdir -p /tmp/grive_marki
+if [ -f $lockfile ]; then
+   echo lock file found: $lockfile
+   exit 1
+fi
+date > $lockfile
+cd /home/marki/google_drive
+rm -f $logfile
+date > grive_`hostname`.txt
+/usr/local/bin/grive > $logfile 2>&1
+rm $lockfile
