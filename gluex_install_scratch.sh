@@ -9,6 +9,7 @@ mkdir -pv $day
 pushd $day
 echo installing in `pwd`
 echo log file is $logfile
+#export NTHREADS=8
 /home/marki/gluex_install/gluex_install.sh >& $logfile
 grep -i error $logfile \
     | grep -v DOMErrorImpl \
