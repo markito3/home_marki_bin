@@ -7,6 +7,7 @@ echo pwd = `pwd`
 echo HALLD_HOME = $HALLD_HOME
 echo HALLD_RECON_HOME = $HALLD_RECON_HOME
 echo HALLD_SIM_HOME = $HALLD_SIM_HOME
+git status
 echo latest files:
 ls -lt | grep -v 'total ' | head -3
 exit
