@@ -1,5 +1,5 @@
 #!/bin/sh
-ip=192.168.1.195
+ip=192.168.1.215
 cd /run/media/marki/Travel/backup/renee
 rm -rf backup.6
 mv backup.5 backup.6
