@@ -19,6 +19,6 @@ git checkout -b overleaf
 find . -path ./.git -prune -o \( -type f -exec rm {} \; \)
 unzip /home/marki/Downloads/GlueX_nim.zip
 git status
-git add .
+git add --all .
 now=`date`
 git commit -m "overleaf as of $now"
