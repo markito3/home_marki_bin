@@ -1,4 +1,5 @@
 #!/bin/bash
+date
 pushd $1
 mkdir -pv gluex_install_scratch
 pushd gluex_install_scratch
@@ -59,4 +60,6 @@ grep -i error $logfile \
     | grep -v Error.cpp.o \
     | grep -v CodeViewError.cpp.o \
     | grep -v OrcError.cpp.o \
-    | grep -v "Info Error"
+    | grep -v "Info Error" \
+    | grep -v EvtValError
+date
