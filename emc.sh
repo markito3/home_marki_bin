@@ -9,7 +9,15 @@ else
     echo daemon not running
     emacs --daemon
 fi
-emacsclient -c $1 &
+if [ "$1" = "-r" ]
+    then
+    echo 1 = $1, 2 = $2
+    lisp="'(view-file \""$2"\")'"
+    echo lisp = $lisp
+    emacsclient --create-frame --eval "$lisp"
+else
+    emacsclient --create-frame $1 &
+fi
 exit
 
 
