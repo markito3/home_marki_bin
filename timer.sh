@@ -18,16 +18,26 @@ function timer()
     if [[ $# -eq 0 ]]; then
         echo $(date '+%s')
     else
-        local  stime=$1
+	while getopts "u:" flag; do
+	    case "$flag" in
+		u) units=$OPTARG;;
+	    esac
+	done
+	shift $((OPTIND - 1))
+        local stime=$1
         etime=$(date '+%s')
 
         if [[ -z "$stime" ]]; then stime=$etime; fi
 
         dt=$((etime - stime))
-        ds=$((dt % 60))
-        dm=$(((dt / 60) % 60))
-        dh=$((dt / 3600))
-        printf '%d:%02d:%02d' $dh $dm $ds
+	if [ "$units" == "seconds" ]; then
+	    echo $dt
+	else
+            ds=$((dt % 60))
+            dm=$(((dt / 60) % 60))
+            dh=$((dt / 3600))
+            printf '%d:%02d:%02d' $dh $dm $ds
+	fi
     fi
 }
 
@@ -36,6 +46,7 @@ if [[ $(basename $0 .sh) == 'timer' ]]; then
     t=$(timer)
     read -p 'Enter when ready...' p
     printf 'Elapsed time: %s\n' $(timer $t)
+    printf 'Elapsed time (seconds): %s\n' $(timer -u seconds $t)
 fi
 
 ## vim: tabstop=4: shiftwidth=4: noexpandtab:
