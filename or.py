@@ -7,4 +7,4 @@ ops = th*.75
 res = th*.25
 opsr = int(ops*10 + .5)/10.0
 resr = int(res*10 + .5)/10.0
-print h,m,'=>',opsr,resr
+print(h,m,'=>',opsr,resr)
