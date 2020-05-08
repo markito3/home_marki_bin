@@ -1,10 +1,7 @@
 #!/bin/sh
 ip=192.168.1.164
-cd /run/media/marki/Travel/backup/renee
-rm -rf backup.6
-mv backup.5 backup.6
-mv backup.4 backup.5
-mv backup.3 backup.4
+cd /travel/backup/renee
+rm -rf backup.3
 mv backup.2 backup.3
 mv backup.1 backup.2
 cp -al backup.0 backup.1

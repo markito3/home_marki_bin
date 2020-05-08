@@ -1,5 +1,5 @@
 #!/bin/sh
-pushd /run/media/marki/Travel/backup/renee
+pushd /travel/backup/renee
 rm -rf monthly.6
 mv -v monthly.5 monthly.6
 mv -v monthly.4 monthly.5
