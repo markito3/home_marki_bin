@@ -1,5 +1,6 @@
 #!/bin/bash
-rm -fv /home/marki/Downloads/Pi0%20Polarizability%20Proposal.zip*
+rm -fv /home/marki/Downloads/Pi0*.zip
+zipfile='/home/marki/Downloads/Pi0 Polarizability Proposal.zip'
 firefox https://www.overleaf.com/project/5d5d22c3f2f2fe72b728c4e6/download/zip
 cd /home/marki/pi0_polarizability_proposal
 git checkout overleaf
@@ -15,7 +16,7 @@ while true; do
     esac
 done
 find . -path ./.git -prune -o \( -type f -exec rm {} \; \)
-unzip /home/marki/Downloads/Pi0%20Polarizability%20Proposal.zip
+unzip "$zipfile"
 git status
 prompt="Is OK to commit the changes? "
 while true; do
