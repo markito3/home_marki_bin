@@ -13,17 +13,21 @@
 #
 # -e: add path names to the end of the path.
 #
-if ($ARGV[0] eq '-e') {
-    $add_to_end = 1;
+$add_to_end = 0;
+$pathtype = "PATH";
+$shelltype = "csh";
+while ($ARGV[0] =~ /^-/) {
+    print "arg = $ARGV[0]\n";
+    if ($ARGV[0] eq '-e') {
+	$add_to_end = 1;
+    }
+    if ($ARGV[0] eq '-l') {
+	$pathtype = "LD_LIBRARY_PATH";
+    }
+    if ($ARGV[0] eq '-b') {
+	$shelltype = "sh";
+    }
     shift @ARGV;
-} else {
-    $add_to_end = 0;
-}
-if ($ARGV[0] eq '-l') {
-    $pathtype = "LD_LIBRARY_PATH";
-    shift @ARGV;
-} else {
-    $pathtype = "PATH";
 }
 $line=$ENV{$pathtype};
 @field = split(/:/,$line);
@@ -44,5 +48,9 @@ for($i = $#ARGV; $i >= 0; $i--) {
       }
   }
 }
-print "setenv $pathtype $newpath\n";
+if ($shelltype eq "csh") {
+    print "setenv $pathtype $newpath\n";
+} else {
+    print "export $pathtype=$newpath\n";
+}
 exit
