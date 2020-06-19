@@ -17,7 +17,7 @@ $add_to_end = 0;
 $pathtype = "PATH";
 $shelltype = "csh";
 while ($ARGV[0] =~ /^-/) {
-    print "arg = $ARGV[0]\n";
+    #print "arg = $ARGV[0]\n";
     if ($ARGV[0] eq '-e') {
 	$add_to_end = 1;
     }
