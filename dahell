@@ -1,13 +1,13 @@
-#!/bin/sh
+#!/bin/bash
 echo hostname = `hostname`
 echo release = `cat /etc/redhat-release`
 uptime
 echo whoami = `whoami`
 echo pwd = `pwd`
-echo HALLD_HOME = $HALLD_HOME
+echo BUILD_SCRIPTS = $BUILD_SCRIPTS
+echo BMS_OSNAME = $BMS_OSNAME
 echo HALLD_RECON_HOME = $HALLD_RECON_HOME
-echo HALLD_SIM_HOME = $HALLD_SIM_HOME
-git status
+git status 2> /dev/null
 echo latest files:
 ls -lt | grep -v 'total ' | head -3
 exit
