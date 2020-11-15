@@ -15,7 +15,13 @@
 #
 $add_to_end = 0;
 $pathtype = "PATH";
-$shelltype = "csh";
+# sense the shell
+$shell = $ENV{SHELL};
+if ($shell =~ /bin\/bash/) {
+    $shelltype = "sh";
+} else {
+    $shelltype = "csh";
+}
 while ($ARGV[0] =~ /^-/) {
     #print "arg = $ARGV[0]\n";
     if ($ARGV[0] eq '-e') {
