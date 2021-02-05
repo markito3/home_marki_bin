@@ -1,4 +1,6 @@
 #!/bin/bash
+rm -f /home/marki/date.txt
+date > /home/marki/date.txt
 pushd /data/marki/backups/markdesk5/home/marki
 rm -rf backup.11
 mv -v backup.10 backup.11
@@ -12,4 +14,4 @@ mv -v backup.3 backup.4
 mv -v backup.2 backup.3
 mv -v backup.1 backup.2
 cp -al backup.0 backup.1
-rsync -ruvtl --delete /home/marki/ /data/marki/backups/markdesk5/home/marki/backup.0/
+rsync -ruvtl --delete --exclude-from=/home/marki/bin/backup_exclude.txt /home/marki/ /data/marki/backups/markdesk5/home/marki/backup.0/
