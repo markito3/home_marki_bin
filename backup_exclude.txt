@@ -1,1 +1,10 @@
 .cache
+.config/Microsoft
+.config/Slack
+.config/teams
+.dropbox
+.mozilla
+.thunderbird
+.config/bluejeans-v2
+.zoom
+.config/google-chrome
