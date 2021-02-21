@@ -8,3 +8,5 @@
 .config/bluejeans-v2
 .zoom
 .config/google-chrome
+.config/skypeforlinux
+.local/share/Trash
