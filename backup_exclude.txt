@@ -10,3 +10,4 @@
 .config/google-chrome
 .config/skypeforlinux
 .local/share/Trash
+.recoll
