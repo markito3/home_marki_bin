@@ -3,6 +3,7 @@
 .config/Slack
 .config/teams
 .dropbox
+.dropbox-dist
 .mozilla
 .thunderbird
 .config/bluejeans-v2
