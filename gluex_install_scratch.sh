@@ -1,5 +1,9 @@
 #!/bin/bash
 date
+scratch_install_dir=$1
+version_set_file=$2
+echo debug 1 = $1
+echo debug 2 = $2
 pushd $1
 mkdir -pv gluex_install_scratch
 pushd gluex_install_scratch
@@ -8,10 +12,18 @@ logfile=gluex_install_${day}.log
 rm -rf $day
 mkdir -pv $day
 pushd $day
-echo installing in `pwd`
-echo log file is $logfile
+echo gluex_install_scratch.sh info: installing in `pwd`
+echo gluex_install_scratch.sh info: log file is $logfile
 #export NTHREADS=8
-/home/marki/git/gluex_install/gluex_install.sh >& $logfile
+options=""
+if [ -n "$version_set_file" ]
+then
+    echo gluex_install_scratch.sh info: default version set specified, using $version_set_file
+    options="-s $version_set_file"
+else
+    echo gluex_install_scratch.sh info: default version set not specified, will use default default version set
+fi
+/home/marki/git/gluex_install/gluex_install.sh $options >& $logfile
 grep -i error $logfile \
     | grep -v DOMErrorImpl \
     | grep -v XSDErrorReporter \
