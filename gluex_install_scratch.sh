@@ -73,5 +73,8 @@ grep -i error $logfile \
     | grep -v CodeViewError.cpp.o \
     | grep -v OrcError.cpp.o \
     | grep -v "Info Error" \
-    | grep -v EvtValError
+    | grep -v EvtValError \
+    | grep -v "numerical error" \
+    | grep -v "grep Error" \
+	   
 date
