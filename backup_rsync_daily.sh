@@ -1,5 +1,5 @@
 #!/bin/sh
-pushd /travel/backup/renee
+cd /data/renee/backups/markdesk4
 rm -rf daily.6
 mv -v daily.5 daily.6
 mv -v daily.4 daily.5

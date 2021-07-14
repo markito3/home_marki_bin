@@ -6,6 +6,7 @@ echo whoami = `whoami`
 echo pwd = `pwd`
 echo BUILD_SCRIPTS = $BUILD_SCRIPTS
 echo BMS_OSNAME = $BMS_OSNAME
+echo GLUEX_TOP = $GLUEX_TOP
 echo HALLD_RECON_HOME = $HALLD_RECON_HOME
 git status 2> /dev/null
 echo latest files:
