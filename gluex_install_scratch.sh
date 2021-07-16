@@ -1,19 +1,24 @@
 #!/bin/bash
+
+. /home/marki/bin/get_latest_release.sh
+
 date
 scratch_install_dir=$1
 version_set_file=$2
-echo debug 1 = $1
-echo debug 2 = $2
 pushd $1
 mkdir -pv gluex_install_scratch
 pushd gluex_install_scratch
-day=`date +%j`
+day=`date +%F`
 logfile=gluex_install_${day}.log
 rm -rf $day
 mkdir -pv $day
 pushd $day
 echo gluex_install_scratch.sh info: installing in `pwd`
 echo gluex_install_scratch.sh info: log file is $logfile
+git clone https://github.com/jeffersonlab/gluex_install
+pushd gluex_install
+git checkout -q `get_latest_release jeffersonlab/gluex_install`
+popd
 #export NTHREADS=8
 options=""
 if [ -n "$version_set_file" ]
@@ -23,7 +28,7 @@ then
 else
     echo gluex_install_scratch.sh info: default version set not specified, will use default default version set
 fi
-/home/marki/git/gluex_install/gluex_install.sh $options >& $logfile
+gluex_install/gluex_install.sh $options >& $logfile
 grep -i error $logfile \
     | grep -v DOMErrorImpl \
     | grep -v XSDErrorReporter \
