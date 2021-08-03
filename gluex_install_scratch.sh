@@ -5,7 +5,11 @@
 date
 scratch_install_dir=$1
 version_set_file=$2
-pushd $1
+if ! pushd $1
+then
+    echo gluex_install_scratch.sh error: could not pushd to $1, exiting
+    exit 1
+fi
 mkdir -pv gluex_install_scratch
 pushd gluex_install_scratch
 day=`date +%F`
@@ -15,7 +19,7 @@ mkdir -pv $day
 pushd $day
 echo gluex_install_scratch.sh info: installing in `pwd`
 echo gluex_install_scratch.sh info: log file is $logfile
-git clone https://github.com/jeffersonlab/gluex_install
+git clone -q https://github.com/jeffersonlab/gluex_install
 pushd gluex_install
 git checkout -q `get_latest_release jeffersonlab/gluex_install`
 popd
