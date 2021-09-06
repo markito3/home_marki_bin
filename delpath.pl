@@ -8,6 +8,13 @@ if ($ARGV[0] eq '-l') {
 } else {
     $pathtype = "PATH";
 }
+# sense the shell
+$shell = $ENV{SHELL};
+if ($shell =~ /bin\/bash/) {
+    $shelltype = "sh";
+} else {
+    $shelltype = "csh";
+}
 $line=$ENV{$pathtype};
 #print "$line\n";
 @field = split(/:/,$line);
@@ -33,6 +40,10 @@ if ($#field == 0) {
 	    $newpath = $newpath . $path;
 	}
     }
-    print "setenv $pathtype $newpath\n";
+    if ($shelltype eq "csh") {
+	print "setenv $pathtype $newpath\n";
+    } else {
+	print "export $pathtype=$newpath\n";
+    }
 }
 exit
