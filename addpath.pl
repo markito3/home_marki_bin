@@ -16,8 +16,10 @@
 $add_to_end = 0;
 $pathtype = "PATH";
 # sense the shell
-$shell = $ENV{SHELL};
-if ($shell =~ /bin\/bash/) {
+$ppid = getppid();
+$command = `ps --no-headers -o cmd $ppid`;
+chomp $command;
+if ($command =~ /bash/) {
     $shelltype = "sh";
 } else {
     $shelltype = "csh";
