@@ -85,5 +85,6 @@ grep -i error $logfile \
     | grep -v EvtValError \
     | grep -v "numerical error" \
     | grep -v "grep Error" \
+    | grep -v "errorhr_col" \
 	   
 date

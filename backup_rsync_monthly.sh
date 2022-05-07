@@ -1,5 +1,5 @@
 #!/bin/sh
-cd /data/renee/backups/markdesk4
+cd /data/renee/backups/reneepc
 rm -rf monthly.6
 mv -v monthly.5 monthly.6
 mv -v monthly.4 monthly.5
