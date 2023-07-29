@@ -3,8 +3,9 @@ logfile=/tmp/grive_${USER}/grive_`date -Iminutes`.log
 lockfile=/tmp/grive_${USER}/grive_`hostname`.lock
 mkdir -p /tmp/grive_${USER}
 if [ -f $lockfile ]; then
-   echo lock file found: $lockfile
-   exit 1
+    echo lock file $lockfile found
+    ls -l $lockfile
+    exit 1
 fi
 date > $lockfile
 cd /home/${USER}/google_drive
@@ -15,5 +16,7 @@ date > grive_`hostname`.txt
 #    --secret DBHayQg_75W6zKbP-NEK1LaU > $logfile 2>&1
 #/usr/local/bin/grive > $logfile 2>&1
 # markdesk5
-grive --id 1019311529026-h1qoto0mtj7a03o4ln6uagmna57u22jh.apps.googleusercontent.com --secret LmJGVFt7_f1mf7YLOyRqasmO > $logfile 2>&1
+#grive --id 1019311529026-h1qoto0mtj7a03o4ln6uagmna57u22jh.apps.googleusercontent.com --secret LmJGVFt7_f1mf7YLOyRqasmO > $logfile 2>&1
+# at the beach
+grive > $logfile 2>&1
 rm $lockfile
