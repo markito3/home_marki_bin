@@ -1,5 +1,5 @@
 #!/bin/bash
-pushd /data/marki/backups/markdesk5/home/marki
+cd /data/marki/backups/markdesk5/home/marki
 rm -rf daily.6
 mv daily.5 daily.6
 mv daily.4 daily.5
