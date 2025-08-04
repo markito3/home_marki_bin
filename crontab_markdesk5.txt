@@ -1,0 +1,22 @@
+*/10 * * * * export PATH=/usr/local/bin:$PATH; /home/marki/bin/grive_cron
+0 0 * * sun wget1 -q -O - checkip.dyndns.com
+#
+# backup home
+#
+0 * * * * /home/marki/bin/backup_marki.sh
+0 0 * * * /home/marki/bin/backup_marki_daily.sh
+0 0 * * sun /home/marki/bin/backup_marki_weekly.sh
+0 0 1 * * /home/marki/bin/backup_marki_monthly.sh
+#
+# backup Renee
+#
+0 */3 * * * rm -f /tmp/backup_rsync.out; /home/marki/bin/backup_rsync.sh >& /tmp/backup_rsync.out
+0 0 * * * /home/marki/bin/backup_rsync_daily.sh
+0 0 * * sun /home/marki/bin/backup_rsync_weekly.sh
+0 0 1 * * /home/marki/bin/backup_rsync_monthly.sh
+#
+#0 0 * * sun singularity exec --cleanenv --bind /data/scratch /data/gluex/singularity/gluex_centos-7.7.1908_sng3.8_gxi2.23.sif /home/marki/bin/gluex_install_scratch.sh /data/scratch/gluex_centos7
+#0 0 * * mon singularity exec --cleanenv --bind /data/scratch /data/gluex/singularity/gluex_centos-8.4.2105_sng3.8_gxi2.26.sif /home/marki/bin/gluex_install_scratch.sh /data/scratch/gluex_centos8
+#0 0 * * tue /home/marki/bin/gluex_install_scratch.sh /data/scratch/gluex_fedora34 version_fedora34.xml
+0 0,4,8,12,16,20  * * * RCLCRON_RCLINDEX= RECOLL_CONFDIR="/home/marki/.recoll" recollindex 2>&1 | grep -v :3: | grep -v :2:
+0 2 * * * cd /home/marki/house/finance ; make
