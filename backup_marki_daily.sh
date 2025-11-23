@@ -1,5 +1,6 @@
 #!/bin/bash
-cd /data/marki/backups/markdesk5/home/marki
+backup_dir=/run/media/marki/Travel/marki/backups/markdesk6/home/marki
+cd $backup_dir
 rm -rf daily.6
 mv daily.5 daily.6
 mv daily.4 daily.5

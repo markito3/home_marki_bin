@@ -1,5 +1,6 @@
 #!/bin/sh
-pushd /data/marki/backups/markdesk5/home/marki
+backup_dir=/run/media/marki/Travel/marki/backups/markdesk6/home/marki
+cd $backup_dir
 rm -rf weekly.3
 mv weekly.2 weekly.3
 mv weekly.1 weekly.2

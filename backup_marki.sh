@@ -1,8 +1,9 @@
 #!/bin/bash
+backup_dir=/run/media/marki/Travel/marki/backups/markdesk6/home/marki
 now=`date +%s`
 rm -f /home/marki/date.txt
 date > /home/marki/date.txt
-cd /data/marki/backups/markdesk5/home/marki
+cd $backup_dir
 rm -rf backup.23
 mv backup.22 backup.23
 mv backup.21 backup.22
@@ -27,4 +28,4 @@ mv backup.3 backup.4
 mv backup.2 backup.3
 mv backup.1 backup.2
 cp -al backup.0 backup.1
-rsync -ruvtl --delete --exclude-from=/home/marki/bin/backup_exclude.txt /home/marki/ /data/marki/backups/markdesk5/home/marki/backup.0/ > /tmp/backup_marki_$now.log
+rsync -ruvtl --delete --exclude-from=/home/marki/bin/backup_exclude.txt /home/marki/ $backup_dir/backup.0/ > /tmp/backup_marki_$now.log
