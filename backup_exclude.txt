@@ -1,7 +1,5 @@
 .cache
-.config/Microsoft
-.config/Slack
-.config/teams
+.config
 .dropbox
 .dropbox-dist
 .mozilla
@@ -12,3 +10,6 @@
 .config/skypeforlinux
 .local/share/Trash
 .recoll
+.wine
+google_drive
+.var
