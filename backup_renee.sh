@@ -8,8 +8,8 @@ mv backup.3 backup.4
 mv backup.2 backup.3
 mv backup.1 backup.2
 cp -al backup.0 backup.1
-ssh -i /home/marki/.ssh/renee_ecdsa renee@reneepc.fios-router.home date \>\| backup_date
-rsync -ruvt --delete -e "ssh -i /home/marki/.ssh/renee_ecdsa" \
+ssh -i /home/marki/.ssh/id_ed25519_backup renee@reneepc.fios-router.home date \>\| backup_date
+rsync -ruvt --delete -e "ssh -i /home/marki/.ssh/id_ed25519_backup" \
       renee@reneepc.fios-router.home:/home/renee/ backup.0/ \
       --exclude AppData
 exit

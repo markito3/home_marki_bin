@@ -1,5 +1,5 @@
 #!/bin/sh
-cd /data/renee/backups/reneepc
+cd /run/media/marki/Travel/backup/renee
 rm -rf daily.6
 mv daily.5 daily.6
 mv daily.4 daily.5

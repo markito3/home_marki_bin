@@ -11,5 +11,4 @@
 .local/share/Trash
 .recoll
 .wine
-google_drive
 .var

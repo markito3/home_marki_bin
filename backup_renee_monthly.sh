@@ -1,5 +1,5 @@
 #!/bin/sh
-cd /data/renee/backups/reneepc
+cd /run/media/marki/Travel/backup/renee
 rm -rf monthly.6
 mv -v monthly.5 monthly.6
 mv -v monthly.4 monthly.5
