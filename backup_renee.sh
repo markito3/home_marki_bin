@@ -1,5 +1,5 @@
 #!/bin/bash
-backup_dir=/data/renee/backups/reneepc
+backup_dir=/run/media/marki/Travel/backup/renee
 test -d $backup_dir || exit 1
 cd $backup_dir
 rm -rf backup.5
