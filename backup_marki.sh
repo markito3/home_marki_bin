@@ -2,6 +2,21 @@
 now=`date +%s`
 logfile=/tmp/backup_marki_$now.log
 date > $logfile
+lockfile=/tmp/backup_marki_lock.txt
+if [ -e $lockfile ]
+then
+    age=$(( ( $(date +%s) - $(stat -c %Y "$lockfile") ) / 3600 ))
+    echo "lock file found, age is $age hours" >> $logfile
+    if (( age < 8 ))
+    then
+	echo "lock file is recent, exiting" >> $logfile
+	exit
+    else
+	echo "lock file is old, continuing" >> $logfile
+	rm -f $lockfile
+    fi
+fi    
+date > $lockfile
 backup_dir=/run/media/marki/Travel/marki/backups/markdesk6/home/marki
 rm -f /home/marki/date.txt
 date > /home/marki/date.txt
@@ -32,3 +47,5 @@ mv backup.1 backup.2
 cp -al backup.0 backup.1
 rsync -ruvtl --delete --exclude-from=/home/marki/bin/backup_exclude.txt /home/marki/ $backup_dir/backup.0/ >> $logfile
 date >> $logfile
+rm -f $lockfile
+
