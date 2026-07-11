@@ -12,3 +12,5 @@
 .recoll
 .wine
 .var
+.local/share/gnome-shell
+.local/share/gvfs-metadata
